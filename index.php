@@ -44,10 +44,9 @@ $lots = [
 ];
 
 function format_price($price) {
-    $ceil_price = ceil($price);
-    $styled_price = $ceil_price;
-    if ($ceil_price >= 1000) {
-        $styled_price = number_format($ceil_price, 0, '', ' ');
+    $styled_price = ceil($price);
+    if ($styled_price >= 1000) {
+        $styled_price = number_format($styled_price, 0, '', ' ');
     }
     return $styled_price . ' ₽';
 }
