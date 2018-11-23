@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?= $page_name; ?></title>
+    <title><?= $title; ?></title>
     <link href="css/normalize.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -27,7 +27,7 @@
                         <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
                     </div>
                     <div class="user-menu__logged">
-                        <p>?= $user_name; ?></p>
+                        <p><?= $user_name; ?></p>
                     </div>
                 <?php else: ?>
                     <ul class="user-menu__list">
@@ -43,7 +43,7 @@
             </nav>
         </div>
     </header>
-    <?= $page_content; ?>
+    <main class="container"><?= $content; ?></main>
 </div>
 
 <footer class="main-footer">
