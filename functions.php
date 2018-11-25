@@ -24,4 +24,3 @@ function format_price($price) {
     return $styled_price . ' ₽';
 }
 
-?>
