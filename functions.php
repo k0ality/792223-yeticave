@@ -24,3 +24,15 @@ function format_price($price) {
     return $styled_price . ' ₽';
 }
 
+function user_input_filter($string) {
+    return htmlspecialchars(strip_tags($string));
+}
+
+function time_before_tomorrow() {
+    date_default_timezone_set("Europe/Kiev");
+    $timer = strtotime('tomorrow') - strtotime('now');
+    $hours = floor($timer / 3600);
+    $minutes = floor(($timer % 3600) / 60);
+
+    return sprintf('%02d', $hours) . ':' . sprintf('%02d', $minutes);
+}
