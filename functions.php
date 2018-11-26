@@ -29,7 +29,6 @@ function user_input_filter($string) {
 }
 
 function time_before_tomorrow() {
-    date_default_timezone_set("Europe/Kiev");
     $timer = strtotime('tomorrow') - strtotime('now');
     $hours = floor($timer / 3600);
     $minutes = floor(($timer % 3600) / 60);
