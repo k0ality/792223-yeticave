@@ -13,7 +13,7 @@ CREATE TABLE lots (
   id INT AUTO_INCREMENT PRIMARY KEY,
   create_time DATETIME,
   name VARCHAR(255),
-  description VARCHAR(255),
+  description TEXT(1000),
   image VARCHAR(128),
   opening_price INT,
   closing_time DATETIME,
