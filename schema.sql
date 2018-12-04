@@ -6,27 +6,27 @@ USE yeticave;
 
 CREATE TABLE categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(128)
+  name VARCHAR (128) NOT NULL UNIQUE
 );
 
 CREATE TABLE lots (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  creation_date DATETIME,
-  name VARCHAR(128),
-  description VARCHAR(128),
+  create_time DATETIME,
+  name VARCHAR(255),
+  description VARCHAR(255),
   image VARCHAR(128),
   opening_price INT,
-  closing_date DATETIME,
+  closing_time DATETIME,
   price_increment INT,
-  owner_id INT,
+  seller_id INT,
   winner_id INT,
   category_id INT
 );
 
 CREATE TABLE bids (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  bid_date DATETIME,
-  bid_amount INT,
+  create_time DATETIME,
+  amount INT,
   buyer_id INT,
   lot_id INT
 );
@@ -34,11 +34,14 @@ CREATE TABLE bids (
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   reg_date DATETIME,
-  email VARCHAR(64),
-  name VARCHAR(128),
-  password VARCHAR(64),
+  email VARCHAR(64) NOT NULL UNIQUE,
+  username VARCHAR(128) NOT NULL UNIQUE,
+  password VARCHAR(64) NOT NULL,
   avatar VARCHAR(128),
-  contact VARCHAR(128),
-  added_lots INT,
-  bid_history INT
+  contact VARCHAR(128)
 );
+
+CREATE UNIQUE INDEX category ON categories(name);
+CREATE INDEX seller ON lots(seller_id);
+CREATE UNIQUE INDEX winner ON lots(winner_id);
+CREATE UNIQUE INDEX email ON users(email);
