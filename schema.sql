@@ -44,4 +44,4 @@ CREATE TABLE users (
 CREATE UNIQUE INDEX category ON categories(name);
 CREATE INDEX seller ON lots(seller_id);
 CREATE UNIQUE INDEX winner ON lots(winner_id);
-CREATE UNIQUE INDEX email ON users(email);
+CREATE UNIQUE INDEX reg_email ON users(email);
