@@ -11,7 +11,7 @@ CREATE TABLE categories (
 
 CREATE TABLE lots (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  create_time DATETIME,
+  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   name VARCHAR(255),
   description TEXT(1000),
   image VARCHAR(128),
@@ -33,7 +33,7 @@ CREATE TABLE bids (
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  reg_date DATETIME,
+  reg_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   email VARCHAR(64) NOT NULL UNIQUE,
   username VARCHAR(128) NOT NULL UNIQUE,
   password VARCHAR(64) NOT NULL,
@@ -41,7 +41,6 @@ CREATE TABLE users (
   contact VARCHAR(128)
 );
 
-CREATE UNIQUE INDEX category ON categories(name);
 CREATE INDEX seller ON lots(seller_id);
-CREATE UNIQUE INDEX winner ON lots(winner_id);
+CREATE INDEX winner ON lots(winner_id);
 CREATE UNIQUE INDEX reg_email ON users(email);
