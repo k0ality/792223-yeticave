@@ -5,42 +5,46 @@ CREATE DATABASE yeticave
 USE yeticave;
 
 CREATE TABLE categories (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR (128) NOT NULL UNIQUE
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
 );
+CREATE UNIQUE INDEX categories_idx ON categories(name);
 
 CREATE TABLE lots (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  name VARCHAR(255),
-  description TEXT(1000),
-  image VARCHAR(128),
-  opening_price INT,
-  closing_time DATETIME,
-  price_increment INT,
-  seller_id INT,
-  winner_id INT,
-  category_id INT
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  start_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  product VARCHAR(255) NOT NULL,
+  description TEXT,
+  image VARCHAR(255),
+  opening_price INT(11) NOT NULL,
+  closing_time DATETIME NOT NULL,
+  price_increment INT(11) NOT NULL,
+  seller_id INT(11) NOT NULL,
+  winner_id INT(11),
+  category_id INT(11) NOT NULL
 );
+CREATE INDEX seller_id_idx ON lots(seller_id);
+CREATE INDEX winner_id_idx ON lots(winner_id);
+CREATE INDEX product_idx ON lots(product);
+CREATE INDEX closing_time_idx ON lots(closing_time);
 
 CREATE TABLE bids (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  create_time DATETIME,
-  amount INT,
-  buyer_id INT,
-  lot_id INT
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  amount INT(11) NOT NULL,
+  buyer_id INT(11) NOT NULL,
+  lot_id INT(11) NOT NULL
 );
+CREATE INDEX create_time_idx ON bids(create_time);
+CREATE INDEX amount_idx ON bids(amount);
 
 CREATE TABLE users (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  reg_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  reg_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   email VARCHAR(64) NOT NULL UNIQUE,
-  username VARCHAR(128) NOT NULL UNIQUE,
-  password VARCHAR(64) NOT NULL,
-  avatar VARCHAR(128),
-  contact VARCHAR(128)
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  avatar VARCHAR(255),
+  contact VARCHAR(255)
 );
-
-CREATE INDEX seller ON lots(seller_id);
-CREATE INDEX winner ON lots(winner_id);
-CREATE UNIQUE INDEX reg_email ON users(email);
+CREATE INDEX reg_time_idx ON users(reg_time);
