@@ -1,5 +1,6 @@
 <?php
-function include_template($name, $data) {
+function include_template($name, $data)
+{
     $name = 'templates/' . $name;
     $result = '';
 
@@ -16,7 +17,8 @@ function include_template($name, $data) {
     return $result;
 }
 
-function format_price($price) {
+function format_price($price)
+{
     $styled_price = ceil($price);
     if ($styled_price >= 1000) {
         $styled_price = number_format($styled_price, 0, null, ' ');
@@ -24,11 +26,13 @@ function format_price($price) {
     return $styled_price . ' ₽';
 }
 
-function user_input_filter($string) {
+function user_input_filter($string)
+{
     return htmlspecialchars(strip_tags($string));
 }
 
-function time_before_tomorrow() {
+function time_before_tomorrow()
+{
     $timer = strtotime('tomorrow') - strtotime('now');
     $hours = floor($timer / 3600);
     $minutes = floor(($timer % 3600) / 60);

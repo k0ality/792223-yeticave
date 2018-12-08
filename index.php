@@ -46,13 +46,19 @@ $lots = [
     ],
 ];
 
-$page_content = include_template('index.php', ['categories' => $categories, 'lots' => $lots]);
+$page_content = include_template(
+    'index.php',
+    ['categories' => $categories,
+    'lots' => $lots]
+);
 
-$layout_content = include_template('layout.php',
+$layout_content = include_template(
+    'layout.php',
     ['title' => 'YetiCave - Главная страница',
     'is_auth' => $is_auth,
     'user_name' => $user_name,
     'categories' => $categories,
-    'content' => $page_content,]);
+    'content' => $page_content,]
+);
 
 print($layout_content);
