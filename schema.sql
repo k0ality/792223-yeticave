@@ -8,7 +8,7 @@ CREATE TABLE categories (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL
 );
-CREATE UNIQUE INDEX categories_idx ON categories(name);
+CREATE UNIQUE INDEX categories_udx ON categories(name);
 
 CREATE TABLE lots (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -41,10 +41,13 @@ CREATE INDEX amount_idx ON bids(amount);
 CREATE TABLE users (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   reg_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  email VARCHAR(64) NOT NULL UNIQUE,
-  username VARCHAR(255) NOT NULL UNIQUE,
+  email VARCHAR(64) NOT NULL,
+  username VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   avatar VARCHAR(255),
   contact VARCHAR(255)
 );
 CREATE INDEX reg_time_idx ON users(reg_time);
+CREATE UNIQUE INDEX email_udx ON users(email);
+CREATE UNIQUE INDEX username_udx ON users(username);
+
