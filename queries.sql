@@ -87,7 +87,6 @@ SET
   closing_time = "2018-12-25 19:00:00",
   price_increment = 50,
   seller_id = 1,
-  winner_id = NULL,
   category_id = 1;
 
 INSERT INTO
@@ -101,7 +100,6 @@ SET
   closing_time = "2018-12-25 19:00:00",
   price_increment = 99,
   seller_id = 1,
-  winner_id = NULL,
   category_id = 1;
 
 INSERT INTO
@@ -115,7 +113,6 @@ SET
   closing_time = "2018-12-21 23:50:00",
   price_increment = 30,
   seller_id = 2,
-  winner_id = NULL,
   category_id = 2;
 
 INSERT INTO
@@ -129,7 +126,6 @@ SET
   closing_time = "2018-12-19 10:00:00",
   price_increment = 5,
   seller_id = 1,
-  winner_id = NULL,
   category_id = 3;
 
 INSERT INTO 
@@ -143,7 +139,6 @@ SET
   closing_time = "2019-01-10 12:30:00",
   price_increment = 10,
   seller_id = 2,
-  winner_id = NULL,
   category_id = 4;
 
 INSERT INTO
@@ -157,7 +152,6 @@ SET
   closing_time = "2018-12-30 15:00:00",
   price_increment = 50,
   seller_id = 4,
-  winner_id = NULL,
   category_id = 6;
 
 # Запрос для добавления информации в БД:
@@ -172,7 +166,7 @@ VALUES
   ("2018-12-06 15:04:58", 7510, 6, 5);
 
 # Запрос для получения всех категорий;
-SELECT categories.name FROM categories;
+SELECT name FROM categories;
 
 # Запрос на получение самых новых, открытых лотов.
 # Каждый лот должен включать название, стартовую цену, ссылку на изображение, цену, название категории;
@@ -203,7 +197,7 @@ WHERE
 UPDATE
   lots
 SET
-  lots.product = "Новая куртка DC Mutiny Charocal"
+  product = "Новая куртка DC Mutiny Charocal"
 WHERE
   id = 5;
 
