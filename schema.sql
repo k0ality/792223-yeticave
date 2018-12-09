@@ -20,7 +20,7 @@ CREATE TABLE lots (
   closing_time DATETIME NOT NULL,
   price_increment INT(11) NOT NULL,
   seller_id INT(11) NOT NULL,
-  winner_id INT(11),
+  winner_id INT(11) NULL,
   category_id INT(11) NOT NULL
 );
 CREATE INDEX seller_id_idx ON lots(seller_id);
