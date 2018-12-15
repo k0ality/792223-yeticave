@@ -23,6 +23,7 @@ function getAllCategories($connection)
 function getAllLots($connection)
 {
     $lots_query = 'SELECT
+    lots.id,
     lots.product,
     lots.opening_price,
     lots.image,
@@ -38,4 +39,24 @@ function getAllLots($connection)
     $db_lots = mysqli_query($connection, $lots_query);
 
     return mysqli_fetch_all($db_lots, MYSQLI_ASSOC);
+}
+
+function getOneLot($connection, $lot_id)
+    {
+    $lot_by_id_query = 'SELECT
+    lots.id,
+    lots.product,
+    lots.description,
+    lots.opening_price,
+    lots.image,
+    categories.name AS `cat_name`
+    FROM
+    lots
+    INNER JOIN categories ON lots.category_id = categories.id
+    WHERE
+    lots.id =' . $lot_id;
+
+    $db_one_lot = mysqli_query($connection, $lot_by_id_query);
+
+    return mysqli_fetch_assoc($db_one_lot);
 }
