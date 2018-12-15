@@ -14,14 +14,12 @@ $connection = connect($config['db']);
 
 $categories = getAllCategories($connection);
 
-if (isset($_GET['id'])) {
-    $lot_id = $_GET['id'];
-}
-else {
+if (!isset($_GET['id'])) {
     http_response_code(404);
     exit('Ошибка 404 - Страница не найдена');
 }
 
+$lot_id = $_GET['id'];
 $one_lot = getOneLot($connection, $lot_id);
 
 if(!isset($one_lot['id'])) {
