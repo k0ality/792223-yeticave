@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'description' => 'Описание',
         'opening_price' => 'Начальная цена',
         'price_increment' => 'Шаг ставки',
-        'closing_time' => "Дата окончания торгов",
+        'closing_time' => 'Дата окончания торгов',
         'image' => 'Изображение',
         ];
     $errors = [];
@@ -56,20 +56,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['image'] = 'Вы не добавили изображение';
     };
 
-    if ($new_lot['opening_price'] <= 0 || $new_lot['opening_price'] !== (string)(int)$new_lot['opening_price'])  {
-        $errors['opening_price'] = 'Цена не может быть отрицательной';
+    if (!validate_input_number($new_lot['opening_price'])) {
+        $errors['opening_price'] = 'Введите положительное число';
     }
 
-    if ($new_lot['price_increment'] <= 0 || $new_lot['price_increment'] !== (string)(int)$new_lot['price_increment'])  {
-        $errors['price_increment'] = 'Шаг ставки должен быть положительным числом';
+    if (!validate_input_number($new_lot['price_increment'])) {
+        $errors['price_increment'] = 'Введите положительное число';
     }
 
-    if ($new_lot['closing_time'] !== date("Y-m-d" , strtotime($new_lot['closing_time']))) {
-        $new_lot['closing_time'] = date("Y-m-d" , strtotime($new_lot['closing_time']));
-    }
-
-    if (strtotime($new_lot['closing_time']) < strtotime('tomorrow')) {
-        $errors['closing_time'] = 'Введите дату окончания торгов (не ранее завтрашнего дня)';
+    if (!validate_input_date($new_lot['closing_time'])) {
+        $errors['closing_time'] = 'Введите дату (не ранее завтрашнего дня)';
     }
 
     if (count($errors)) {
@@ -83,37 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $new_lot['image'] = $file_url;
 
-        $category_name = $new_lot['category'];
-        $category_id = getCategoryID($connection, $category_name);
+        $new_lot['category'] = getCategoryID($connection, $new_lot['category']);
 
-        $add_lot_query = 'INSERT INTO
-                lots (
-                start_time,
-                product,
-                description,
-                image,
-                opening_price,
-                closing_time,
-                price_increment,
-                category_id,
-                seller_id,
-                )
-                VALUES
-                (NOW(), ?, ?, ?, ?, ?, ?, ?, 1)';
-
-        $statement = db_get_prepare_stmt($connection, $add_lot_query,
-            [
-            $new_lot['product'],
-            $new_lot['description'],
-            $new_lot['image'],
-            $new_lot['opening_price'],
-            $new_lot['closing_time'],
-            $new_lot['price_increment'],
-            $category_id,
-            ]
-        );
-
-        $result = mysqli_stmt_execute($statement);
+        $result = db_add_lot($connection, $new_lot);
 
         if (!$result) {
             $error = mysqli_connect_error();
