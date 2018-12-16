@@ -13,11 +13,46 @@ function connect($configDb)
     return $connection;
 }
 
+function db_get_prepare_stmt($connection, $query, $data = []) {
+    $stmt = mysqli_prepare($connection, $query);
+
+    if ($data) {
+        $types = '';
+        $stmt_data = [];
+
+        foreach ($data as $value) {
+            $type = null;
+
+            if (is_int($value)) {
+                $type = 'i';
+            }
+            else if (is_string($value)) {
+                $type = 's';
+            }
+            else if (is_double($value)) {
+                $type = 'd';
+            }
+
+            if ($type) {
+                $types .= $type;
+                $stmt_data[] = $value;
+            }
+        }
+
+        $values = array_merge([$stmt, $types], $stmt_data);
+
+        $function = 'mysqli_stmt_bind_param';
+        $function(...$values);
+    }
+
+    return $stmt;
+}
+
 function getAllCategories($connection)
 {
     $db_categories = mysqli_query($connection, 'SELECT name FROM categories;');
 
-    return mysqli_fetch_all($db_categories, MYSQLI_ASSOC);;
+    return mysqli_fetch_all($db_categories, MYSQLI_ASSOC);
 }
 
 function getAllLots($connection)
@@ -60,3 +95,16 @@ function getOneLot($connection, $lot_id)
 
     return mysqli_fetch_assoc($db_one_lot);
 }
+
+function getCategoryID($connection, $category_name) {
+    $category_id_query = 'SELECT
+            id
+            FROM
+            categories 
+            WHERE
+            name = ' . mysqli_real_escape_string($connection, $category_name);
+
+    $category_id = mysqli_query($connection, $category_id_query);
+
+    return mysqli_fetch_assoc($category_id);
+};
