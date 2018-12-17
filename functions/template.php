@@ -17,3 +17,24 @@ function include_template($name, $data)
 
     return $result;
 }
+
+function error_template($error, $is_auth, $user_name, $categories)
+{
+    $error_content = include_template('error.php', [
+        'error' => $error
+    ]);
+
+    $layout_content = include_template(
+        'layout.php',
+        [
+            'title' => 'YetiCave - Ошибка',
+            'is_auth' => $is_auth,
+            'user_name' => $user_name,
+            'categories' => $categories,
+            'content' => $error_content,
+        ]
+    );
+
+    print($layout_content);
+    die;
+}
