@@ -1,8 +1,8 @@
 <?php
 
-function connect($configDb)
+function connect($config_db)
 {
-    $connection = mysqli_connect($configDb['host'], $configDb['user'], $configDb['password'], $configDb['database']);
+    $connection = mysqli_connect($config_db['host'], $config_db['user'], $config_db['password'], $config_db['database']);
 
     if (!$connection) {
         $error = mysqli_connect_error();
@@ -77,17 +77,18 @@ function db_add_lot($connection, $new_lot) {
         );
 
     $res = mysqli_stmt_execute($stmt);
+
     return $res;
 }
 
-function getAllCategories($connection)
+function get_all_categories($connection)
 {
     $db_categories = mysqli_query($connection, 'SELECT name FROM categories;');
 
     return mysqli_fetch_all($db_categories, MYSQLI_ASSOC);
 }
 
-function getAllLots($connection)
+function get_all_lots($connection)
 {
     $lots_query = 'SELECT
     lots.id,
@@ -108,7 +109,7 @@ function getAllLots($connection)
     return mysqli_fetch_all($db_lots, MYSQLI_ASSOC);
 }
 
-function getOneLot($connection, $lot_id)
+function get_one_lot($connection, $lot_id)
     {
     $lot_by_id_query = 'SELECT
     lots.id,
@@ -128,7 +129,7 @@ function getOneLot($connection, $lot_id)
     return mysqli_fetch_assoc($db_one_lot);
 }
 
-function getCategoryID($connection, $category_name) {
+function get_category_id($connection, $category_name) {
     $category_id_query = 'SELECT
             id
             FROM
@@ -139,4 +140,4 @@ function getCategoryID($connection, $category_name) {
     $category_id = mysqli_query($connection, $category_id_query);
 
     return mysqli_fetch_assoc($category_id);
-};
+}

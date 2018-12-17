@@ -1,17 +1,15 @@
 <?php
 
+require_once 'data.php';
 require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
-
-$is_auth = rand(0, 1);
-$user_name = 'Снежок';
-$user_avatar = 'img/user.jpg';
+require_once 'functions/validators.php';
 
 $config = require 'config.php';
 $connection = connect($config['db']);
 
-$categories = getAllCategories($connection);
+$categories = get_all_categories($connection);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_lot = $_POST;
@@ -80,9 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ]);
     } else {
         $new_lot['image'] = $file_url;
-
-        $new_lot['category'] = getCategoryID($connection, $new_lot['category']);
-
+        $new_lot['category'] = get_category_id($connection, $new_lot['category']);
         $result = db_add_lot($connection, $new_lot);
 
         if (!$result) {
