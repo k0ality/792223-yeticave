@@ -14,15 +14,6 @@ $categories = get_all_categories($connection);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_lot = $_POST;
     $required = ['product', 'category', 'description', 'opening_price', 'price_increment', 'closing_time'];
-    $dictionary = [
-        'product' => 'Наименование',
-        'category' => 'Категория',
-        'description' => 'Описание',
-        'opening_price' => 'Начальная цена',
-        'price_increment' => 'Шаг ставки',
-        'closing_time' => 'Дата окончания торгов',
-        'image' => 'Изображение',
-        ];
     $errors = [];
 
     foreach ($required as $key) {
@@ -73,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $page_content = include_template('add-lot.php', [
             'new_lot' => $new_lot,
             'errors' => $errors,
-            'dictionary' => $dictionary,
             'categories' => $categories,
         ]);
     } else {
