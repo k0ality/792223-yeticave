@@ -64,8 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors['price_increment'] = 'Введите положительное число';
     }
 
-    if (!validate_input_date($new_lot['closing_time'])) {
-        $errors['closing_time'] = 'Введите дату (не ранее завтрашнего дня)';
+    if (!empty($new_lot['closing_time'])) {
+        if (!validate_input_date($new_lot['closing_time'])) {
+            $errors['closing_time'] = 'Введите дату (не ранее завтрашнего дня)';
+        }
     }
 
     if (count($errors)) {
