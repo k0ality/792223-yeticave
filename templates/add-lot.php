@@ -25,7 +25,7 @@
                     <label for="category">Категория</label>
                     <select id="category" name="category">
                         <?php foreach ($categories as $category): ?>
-                            <option><?=user_input_filter($category['name']); ?></option>
+                            <option value="<?= $category['id']; ?>"><?=user_input_filter($category['name']); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <span class="form__error"><?= $errors['category']; ?></span>
@@ -87,7 +87,7 @@
                     <span class="form__error"><?= $errors['closing_time']; ?></span>
                 </div>
             </div>
-            <span class="form__error form__error--bottom"><?= $errors['hints']; ?></span>
+            <span class="form__error form__error--bottom"></span>
             <button type="submit" class="button">Добавить лот</button>
         </form>
     </main>
