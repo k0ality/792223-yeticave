@@ -87,7 +87,7 @@
                     <span class="form__error"><?= $errors['closing_time']; ?></span>
                 </div>
             </div>
-            <span class="form__error form__error--bottom"></span>
+            <span class="form__error form__error--bottom"><?= $errors['hint']; ?></span>
             <button type="submit" class="button">Добавить лот</button>
         </form>
     </main>

@@ -13,7 +13,11 @@ function connect($config_db)
     return $connection;
 }
 
-function db_get_prepare_stmt($connection, $query, $data = []) {
+function db_get_prepare_stmt(
+    $connection,
+    $query,
+    $data = []
+) {
     $stmt = mysqli_prepare($connection, $query);
 
     if ($data) {
@@ -25,11 +29,9 @@ function db_get_prepare_stmt($connection, $query, $data = []) {
 
             if (is_int($value)) {
                 $type = 'i';
-            }
-            else if (is_string($value)) {
+            } elseif (is_string($value)) {
                 $type = 's';
-            }
-            else if (is_double($value)) {
+            } elseif (is_double($value)) {
                 $type = 'd';
             }
 
@@ -48,7 +50,8 @@ function db_get_prepare_stmt($connection, $query, $data = []) {
     return $stmt;
 }
 
-function db_add_lot($connection, $new_lot) {
+function db_add_lot($connection, $new_lot)
+{
     $add_lot_query = "INSERT INTO
         lots (
         product,
@@ -61,22 +64,22 @@ function db_add_lot($connection, $new_lot) {
         seller_id
         )
         VALUES
-        (1, ?, ?, ?, ?, ?, ?, ?)";
+        (?, ?, ?, ?, ?, ?, ?, 1)";
 
-    $stmt = db_get_prepare_stmt($connection, $add_lot_query,
+    $stmt = db_get_prepare_stmt(
+        $connection,
+        $add_lot_query,
         [
             $new_lot['product'],
-            $new_lot['description'],
-            $new_lot['image'],
-            $new_lot['opening_price'],
-            $new_lot['closing_time'],
-            $new_lot['price_increment'],
             $new_lot['category'],
+            $new_lot['description'],
+            $new_lot['opening_price'],
+            $new_lot['price_increment'],
+            $new_lot['closing_time'],
+            $new_lot['image'],
         ]
     );
-
     $res = mysqli_stmt_execute($stmt);
-
     return $res;
 }
 
@@ -109,7 +112,7 @@ function get_all_lots($connection)
 }
 
 function get_one_lot($connection, $lot_id)
-    {
+{
     $lot_by_id_query = 'SELECT
     lots.id,
     lots.product,
