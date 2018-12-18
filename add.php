@@ -5,6 +5,7 @@ require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
 require_once 'functions/validators.php';
+require_once 'functions/server.php';
 
 $config = require 'config.php';
 $connection = connect($config['db']);
@@ -16,34 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $required = ['product', 'category', 'description', 'opening_price', 'price_increment', 'closing_time'];
     $errors = [];
 
-    foreach ($required as $key) {
-        if (empty($new_lot[$key])) {
-            $errors[$key] = 'Это поле надо заполнить';
-        }
-    };
+    check_required_filled($new_lot, $required, $errors);
 
     if (isset($_FILES['jpg_img']['name']) && !empty ($_FILES['jpg_img']['name'])) {
         $file_name = $_FILES['jpg_img']['tmp_name'];
-
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $file_name);
-        if ($file_type !== "image/png" & $file_type !== "image/jpeg" & $file_type !== "image/jpg") {
-            $errors['image'] = 'Загрузите изображение в формате JPG или PNG';
-        } else {
-            if ($file_type === "image/png") {
-                $file_name = uniqid() . '.png';
-            } elseif ($file_type === "image/jpg") {
-                $file_name = uniqid() . '.jpg';
-            } elseif ($file_type === "image/jpeg") {
-                $file_name = uniqid() . '.jpeg';
-            }
-            $file_path = __DIR__ . '/img/';
-            $file_url = '/img/' . $file_name;
-            move_uploaded_file($_FILES['jpg_img']['tmp_name'], $file_path . $file_name);
+
+        if (validate_image($errors, $file_type)) {
+            $file_url = upload_image($file_name, $file_type);
         }
     } else {
         $errors['image'] = 'Вы не добавили изображение';
-    };
+    }
 
     if (!validate_input_number($new_lot['opening_price'])) {
         $errors['opening_price'] = 'Введите положительное число';
