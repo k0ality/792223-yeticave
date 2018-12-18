@@ -21,12 +21,13 @@
                     <span class="form__error"><?= $errors['product']; ?></span>
                 </div>
                 <?php $css_class_form = isset($errors['category']) ? "form__item--invalid" : ""; ?>
-                <div class="form__item">
+                <div class="form__item <?= $css_class_form ;?>">
                     <label for="category">Категория</label>
                     <select id="category" name="category">
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= $category['id']; ?>"><?=user_input_filter($category['name']); ?></option>
                         <?php endforeach; ?>
+                        <!-- <option value="100">Тест</option>  -->
                     </select>
                     <span class="form__error"><?= $errors['category']; ?></span>
                 </div>
