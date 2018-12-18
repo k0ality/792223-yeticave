@@ -30,7 +30,7 @@ function validate_input_date($input)
 
 function validate_image($file_type)
 {
-    $valid = $file_type !== "image/png" & $file_type !== "image/jpeg" & $file_type !== "image/jpg");
+    $valid = $file_type !== "image/png" & $file_type !== "image/jpeg" & $file_type !== "image/jpg";
 
     return $valid;
 }
