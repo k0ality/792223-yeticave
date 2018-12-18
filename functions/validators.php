@@ -5,9 +5,8 @@ define("INVALID_NO_FILE", "Вы не добавили изображение");
 define("INVALID_FILE_TYPE", "Добавьте файл в формате JPG/JPEG, PNG или GIF");
 define("INVALID_NOT_A_POSITIVE_INT", "Введите целое положительное число");
 define("INVALID_DATE", "Введите дату (не ранее завтрашнего дня)");
-define("INVALID_CATEGORY", "Несуществующая категория");
 
-function validate_lot_form($post, $files, $categories)
+function validate_lot_form($post, $files)
 {
     $required = ['product', 'category', 'description', 'opening_price', 'price_increment', 'closing_time'];
     $errors = notify_required_fields($post, $required);
@@ -32,12 +31,6 @@ function validate_lot_form($post, $files, $categories)
         if (!validate_input_date($post['closing_time'])) {
             $errors['closing_time'] = INVALID_DATE;
         }
-    }
-
-    if (!validate_category_id($post['category'], $categories)) {
-        $errors['category'] = INVALID_CATEGORY;
-        //print("input:" . $post['category'] . PHP_EOL);
-        //var_dump($categories);
     }
 
     if (count($errors)) {
@@ -77,13 +70,6 @@ function validate_input_date($input)
     $tomorrow = date("Y-m-d", strtotime('tomorrow'));
     $year_from_now = date('Y-m-d', strtotime(date('Y-m-d', time()) . ' + 1 year'));
     $valid = $user_date > $tomorrow && $user_date < $year_from_now;
-
-    return $valid;
-}
-
-function validate_category_id($input, $categories)
-{
-    $valid = in_array(intval($input), $categories);
 
     return $valid;
 }

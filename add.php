@@ -15,8 +15,7 @@ $new_lot = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_lot = $_POST;
-    //var_dump($_POST);
-    $result = validate_lot_form($new_lot, $_FILES, $categories);
+    $result = validate_lot_form($new_lot, $_FILES);
 
     if ($result === true) {
         $new_lot['image'] = upload_image($_FILES);

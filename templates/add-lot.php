@@ -27,7 +27,6 @@
                         <?php foreach ($categories as $category): ?>
                             <option value="<?= $category['id']; ?>"><?=user_input_filter($category['name']); ?></option>
                         <?php endforeach; ?>
-                        <!-- <option value="100">Тест</option>  -->
                     </select>
                     <span class="form__error"><?= $errors['category']; ?></span>
                 </div>
@@ -45,10 +44,6 @@
                 $css_class_form = "form__item--invalid";
             }
             ?>
-            <!--if (!empty($file_url)) {
-                $css_class_form = "form__item--uploaded";
-            }
-            -->
             <div class="form__item form__item--file <?= $css_class_form; ?>">
                 <label>Изображение</label>
                 <div class="preview">
