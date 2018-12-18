@@ -18,11 +18,10 @@ function include_template($name, $data)
     return $result;
 }
 
-function error_template($error)
+function error_template($error, $is_auth, $user_name, $categories)
 {
-    require '../data.php';
     $error_content = include_template('error.php', [
-        'error' => $error
+        'error' => $error,
     ]);
 
     $layout_content = include_template(
@@ -31,7 +30,7 @@ function error_template($error)
             'title' => 'YetiCave - Ошибка',
             'is_auth' => $is_auth,
             'user_name' => $user_name,
-            //'categories' => $categories,
+            'categories' => $categories,
             'content' => $error_content,
         ]
     );
