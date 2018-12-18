@@ -1,13 +1,14 @@
 <?php
 
-function check_required_filled($input, $required, &$errors)
+function notify_required_fields($input, $required)
 {
     foreach ($required as $key) {
         if (empty($input[$key])) {
             $errors[$key] = 'Это поле надо заполнить';
         }
     };
-    //print_r($errors);
+
+    return $errors;
 }
 
 function validate_input_number($input)
@@ -27,15 +28,10 @@ function validate_input_date($input)
     return $valid;
 }
 
-function validate_image(&$errors, $file_type)
+function validate_image($file_type)
 {
-    $valid = false;
-
-    if ($file_type !== "image/png" & $file_type !== "image/jpeg" & $file_type !== "image/jpg") {
-            $errors['image'] = 'Загрузите изображение в формате JPG или PNG';
-    } else {
-        $valid = true;
-    }
+    $valid = $file_type !== "image/png" & $file_type !== "image/jpeg" & $file_type !== "image/jpg");
 
     return $valid;
 }
+

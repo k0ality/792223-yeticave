@@ -9,22 +9,19 @@ require_once 'functions/server.php';
 
 $config = require 'config.php';
 $connection = connect($config['db']);
-
 $categories = get_all_categories($connection);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_lot = $_POST;
     $required = ['product', 'category', 'description', 'opening_price', 'price_increment', 'closing_time'];
-    $errors = [];
-
-    check_required_filled($new_lot, $required, $errors);
+    $errors = notify_required_fields($new_lot, $required);
 
     if (isset($_FILES['jpg_img']['name']) && !empty ($_FILES['jpg_img']['name'])) {
         $file_name = $_FILES['jpg_img']['tmp_name'];
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $file_name);
 
-        if (validate_image($errors, $file_type)) {
+        if (validate_image($file_type)) {
             $file_url = upload_image($file_name, $file_type);
         }
     } else {
