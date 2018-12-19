@@ -9,11 +9,11 @@
         </ul>
     </nav>
     <?php $css_class_form = isset($errors) ? "form--invalid" : ""; ?>
-    <form class="form container <?= $css_class_form; ?>" action="/sign-up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
+    <form class="form container <?= $css_class_form; ?>" action="../sign-up.php" method="post" enctype="multipart/form-data">
         <h2>Регистрация нового аккаунта</h2>
         <?php $css_class_form = isset($errors['email']) ? "form__item--invalid" : "";
         $value = isset($sign_up['email']) ? user_input_filter($sign_up['email']) : ""; ?>
-        <div class="form__item <?= $css_class_form; ?>"> <!-- form__item--invalid -->
+        <div class="form__item <?= $css_class_form; ?>">
             <label for="email">E-mail*</label>
             <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $value; ?>">
             <span class="form__error"><?= $errors['email']; ?></span>
@@ -35,7 +35,7 @@
         $value = isset($sign_up['contact']) ? user_input_filter($sign_up['contact']) : ""; ?>
         <div class="form__item <?= $css_class_form; ?>">
             <label for="contact">Контактные данные*</label>
-            <textarea id="contact" name="contact" placeholder="Напишите как с вами связаться" value="<?= $value; ?>"></textarea>
+            <textarea id="contact" name="contact" placeholder="Напишите как с вами связаться"><?= $value; ?></textarea>
             <span class="form__error"><?= $errors['contact']; ?></span>
         </div>
         <?php $css_class_form = isset($errors['image']) ? "form__item--invalid" : ""; ?>
@@ -47,6 +47,7 @@
                     <img src="img/avatar.jpg" width="113" height="113" alt="Ваш аватар">
                 </div>
             </div>
+            <span class="form__error"><?= $errors['image']; ?></span>
             <div class="form__input-file">
                 <input class="visually-hidden" type="file" id="photo2" value="">
                 <label for="photo2">

@@ -15,7 +15,8 @@ $sign_up = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sign_up = $_POST;
-    $result = validate_sign_up_form($sign_up, $_FILES);
+    $result = validate_sign_up_form($sign_up, $_FILES, $connection);
+    //var_dump(check_isset_file($_FILES));
 
     if ($result === true) {
         $sign_up['image'] = upload_image($_FILES);

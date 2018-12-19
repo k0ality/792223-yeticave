@@ -55,8 +55,7 @@ function validate_sign_up_form($post, $files, $connection)
         $errors['email'] = INVALID_EMAIL;
     }
 
-    if (!isset($errors['email']) && (filter_var($post['email'], FILTER_VALIDATE_EMAIL))) {
-        check_email_exist_in_db($connection, $post['email']);
+    if (filter_var($post['email'], FILTER_VALIDATE_EMAIL) && !(check_email_exist_in_db($connection, $post['email']))) {
         $errors['email'] = EXISTING_EMAIL;
     }
 
@@ -64,20 +63,21 @@ function validate_sign_up_form($post, $files, $connection)
         $errors['password'] = INVALID_PASSWORD;
     }
 
-//    if (!empty($post['closing_time'])) {
-//        if (!validate_input_date($post['closing_time'])) {
-//            $errors['closing_time'] = INVALID_DATE;
-//        }
-//    }
+    if (!isset($errors['username']) && !check_username_exist_in_db($connection, $post['username'])) {
+        $errors['username'] = EXISTING_USERNAME;
+    }
 
-    if (!isset($post['image']) && !validate_image($files)) {
+    if (check_isset_file($files) && !validate_image($files)) {
         $errors['image'] = INVALID_FILE_TYPE;
     }
+    var_dump(check_isset_file($files));
 
     if (count($errors)) {
         $errors['hint'] = INVALID_HINT;
         return $errors;
     }
+
+    var_dump($errors);
 
     return true;
 }
