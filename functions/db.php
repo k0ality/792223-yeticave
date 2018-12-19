@@ -84,8 +84,36 @@ function db_add_lot($connection, $new_lot)
             $new_lot['image'],
         ]
     );
-    $res = mysqli_stmt_execute($stmt);
-    return $res;
+    $result = mysqli_stmt_execute($stmt);
+    return $result;
+}
+
+function db_add_user($connection, $sign_up)
+{
+    $add_lot_query = "INSERT INTO
+        users (
+        email,
+        password,
+        username,
+        contact,
+        avatar
+        )
+        VALUES
+        (?, ?, ?, ?, ?)";
+
+    $stmt = db_get_prepare_stmt(
+        $connection,
+        $add_lot_query,
+        [
+            $sign_up['email'],
+            $sign_up['password'],
+            $sign_up['username'],
+            $sign_up['contact'],
+            $sign_up['image'],
+        ]
+    );
+    $result = mysqli_stmt_execute($stmt);
+    return $result;
 }
 
 function get_all_categories($connection)

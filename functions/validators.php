@@ -49,7 +49,6 @@ function validate_sign_up_form($post, $files, $connection)
 {
     $required = ['email', 'password', 'username', 'contact'];
     $errors = notify_required_fields($post, $required);
-    var_dump($post);
 
     if (!isset($errors['email']) && !(filter_var($post['email'], FILTER_VALIDATE_EMAIL))) {
         $errors['email'] = INVALID_EMAIL;
@@ -70,14 +69,11 @@ function validate_sign_up_form($post, $files, $connection)
     if (check_isset_file($files) && !validate_image($files)) {
         $errors['image'] = INVALID_FILE_TYPE;
     }
-    var_dump(check_isset_file($files));
 
     if (count($errors)) {
         $errors['hint'] = INVALID_HINT;
         return $errors;
     }
-
-    var_dump($errors);
 
     return true;
 }

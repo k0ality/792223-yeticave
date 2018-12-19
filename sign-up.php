@@ -20,7 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result === true) {
         $sign_up['image'] = upload_image($_FILES);
-        $result = db_add_user($connection, $sign_up);
+        $sign_up['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $sign_up['$result'] = db_add_user($connection, $sign_up);
+
+        if (!$sign_up['$result']) {
+            die('При создании пользователя произошла ошибка');
+        }
+
         header('Location: /login.php');
         exit;
     }
