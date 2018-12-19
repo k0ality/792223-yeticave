@@ -1,8 +1,8 @@
 <?php
 
-function connect($configDb)
+function connect($config_db)
 {
-    $connection = mysqli_connect($configDb['host'], $configDb['user'], $configDb['password'], $configDb['database']);
+    $connection = mysqli_connect($config_db['host'], $config_db['user'], $config_db['password'], $config_db['database']);
 
     if (!$connection) {
         $error = mysqli_connect_error();
@@ -13,14 +13,84 @@ function connect($configDb)
     return $connection;
 }
 
-function getAllCategories($connection)
-{
-    $db_categories = mysqli_query($connection, 'SELECT name FROM categories;');
+function db_get_prepare_stmt(
+    $connection,
+    $query,
+    $data = []
+) {
+    $stmt = mysqli_prepare($connection, $query);
 
-    return mysqli_fetch_all($db_categories, MYSQLI_ASSOC);;
+    if ($data) {
+        $types = '';
+        $stmt_data = [];
+
+        foreach ($data as $value) {
+            $type = null;
+
+            if (is_int($value)) {
+                $type = 'i';
+            } elseif (is_string($value)) {
+                $type = 's';
+            } elseif (is_double($value)) {
+                $type = 'd';
+            }
+
+            if ($type) {
+                $types .= $type;
+                $stmt_data[] = $value;
+            }
+        }
+
+        $values = array_merge([$stmt, $types], $stmt_data);
+
+        $function = 'mysqli_stmt_bind_param';
+        $function(...$values);
+    }
+
+    return $stmt;
 }
 
-function getAllLots($connection)
+function db_add_lot($connection, $new_lot)
+{
+    $add_lot_query = "INSERT INTO
+        lots (
+        product,
+        category_id,
+        description,
+        opening_price,
+        price_increment,
+        closing_time,
+        image,
+        seller_id
+        )
+        VALUES
+        (?, ?, ?, ?, ?, ?, ?, 1)";
+
+    $stmt = db_get_prepare_stmt(
+        $connection,
+        $add_lot_query,
+        [
+            $new_lot['product'],
+            $new_lot['category'],
+            $new_lot['description'],
+            $new_lot['opening_price'],
+            $new_lot['price_increment'],
+            $new_lot['closing_time'],
+            $new_lot['image'],
+        ]
+    );
+    $res = mysqli_stmt_execute($stmt);
+    return $res;
+}
+
+function get_all_categories($connection)
+{
+    $db_categories = mysqli_query($connection, 'SELECT id, name FROM categories;');
+
+    return mysqli_fetch_all($db_categories, MYSQLI_ASSOC);
+}
+
+function get_all_lots($connection)
 {
     $lots_query = 'SELECT
     lots.id,
@@ -41,8 +111,8 @@ function getAllLots($connection)
     return mysqli_fetch_all($db_lots, MYSQLI_ASSOC);
 }
 
-function getOneLot($connection, $lot_id)
-    {
+function get_one_lot($connection, $lot_id)
+{
     $lot_by_id_query = 'SELECT
     lots.id,
     lots.product,

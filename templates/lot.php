@@ -9,14 +9,14 @@
             </ul>
         </nav>
         <section class="lot-item container">
-            <h2><?=user_input_filter($one_lot['product']);?></h2>
+            <h2><?= user_input_filter($one_lot['product']); ?></h2>
             <div class="lot-item__content">
                 <div class="lot-item__left">
                     <div class="lot-item__image">
-                        <img src="<?=$one_lot['image'];?>" width="730" height="548" alt="<?=user_input_filter($one_lot['product']);?>">
+                        <img src="<?= $one_lot['image']; ?>" width="730" height="548" alt="<?= user_input_filter($one_lot['product']); ?>">
                     </div>
-                    <p class="lot-item__category">Категория: <span><?=$one_lot['cat_name'];?></span></p>
-                    <p class="lot-item__description"><?=$one_lot['description'];?></p>
+                    <p class="lot-item__category">Категория: <span><?= $one_lot['cat_name']; ?></span></p>
+                    <p class="lot-item__description"><?= $one_lot['description']; ?></p>
                 </div>
             </div>
         </section>

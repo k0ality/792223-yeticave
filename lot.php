@@ -1,31 +1,30 @@
 <?php
 
+require_once 'data.php';
 require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
 require_once 'functions/time.php';
 
-$is_auth = rand(0, 1);
-$user_name = 'Снежок';
-$user_avatar = 'img/user.jpg';
-
 $config = require 'config.php';
 $connection = connect($config['db']);
 
-$categories = getAllCategories($connection);
+$categories = get_all_categories($connection);
 
 if (!isset($_GET['id'])) {
     http_response_code(404);
-    exit('Ошибка 404 - Страница не найдена');
+    $error = http_response_code();
+    error_template($error, $is_auth, $user_name, $categories);
 }
 
 $lot_id = $_GET['id'];
-$one_lot = getOneLot($connection, $lot_id);
+$one_lot = get_one_lot($connection, $lot_id);
 
-if(!isset($one_lot['id'])) {
+if (!isset($one_lot['id'])) {
     http_response_code(404);
-    exit('Ошибка 404 - Страница не найдена');
-};
+    $error = http_response_code();
+    error_template($error, $is_auth, $user_name, $categories);
+}
 
 $page_content = include_template(
     'lot.php',

@@ -1,19 +1,16 @@
 <?php
 
+require_once 'data.php';
 require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
 require_once 'functions/time.php';
 
-$is_auth = rand(0, 1);
-$user_name = 'Снежок'; // укажите здесь ваше имя
-$user_avatar = 'img/user.jpg';
-
 $config = require 'config.php';
 $connection = connect($config['db']);
 
-$categories = getAllCategories($connection);
-$lots = getAllLots($connection);
+$categories = get_all_categories($connection);
+$lots = get_all_lots($connection);
 
 $page_content = include_template(
     'index.php',

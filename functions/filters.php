@@ -6,6 +6,7 @@ function format_price($price)
     if ($styled_price >= 1000) {
         $styled_price = number_format($styled_price, 0, null, ' ');
     }
+
     return $styled_price . ' ₽';
 }
 
