@@ -157,11 +157,24 @@ function get_one_lot($connection, $lot_id)
     lots
     INNER JOIN categories ON lots.category_id = categories.id
     WHERE
-    lots.id =' . $lot_id;
+    lots.id = "' . mysqli_real_escape_string($connection, $lot_id) . '"';
 
     $db_one_lot = mysqli_query($connection, $lot_by_id_query);
 
     return mysqli_fetch_assoc($db_one_lot);
+}
+
+function get_user_by_email($connection, $email)
+{
+    $user_info_query = 'SELECT 
+    *
+    FROM
+    users
+    WHERE email = "' . mysqli_real_escape_string($connection, $email) . '"';
+
+    $user_info = mysqli_query($connection, $user_info_query);
+
+    return mysqli_fetch_assoc($user_info);
 }
 
 function check_email_exist_in_db($connection, $email)

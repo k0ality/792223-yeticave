@@ -9,6 +9,8 @@ define("INVALID_EMAIL", "Недействительный email");
 define("INVALID_PASSWORD", "Мин 4 символа. Разрешена латиница, цифры, символы");
 define("EXISTING_EMAIL", "Пользователь с таким email уже зарегистрирован");
 define("EXISTING_USERNAME", "Пользователь с таким именем уже зарегистрирован");
+define("NONEXISTENT_EMAIL", "Пользователь с таким email ещё не зарегистрирован");
+define("WRONG_PASSWORD", "Вы ввели неверный пароль");
 
 function validate_lot_form($post, $files)
 {
@@ -72,6 +74,34 @@ function validate_sign_up_form($post, $files, $connection)
 
     if (count($errors)) {
         $errors['hint'] = INVALID_HINT;
+        return $errors;
+    }
+
+    return true;
+}
+
+function validate_login_form($post, $connection)
+{
+    $required = ['email', 'password'];
+    $errors = notify_required_fields($post, $required);
+
+    if (!isset($errors['email']) && !(filter_var($post['email'], FILTER_VALIDATE_EMAIL))) {
+        $errors['email'] = INVALID_EMAIL;
+    }
+
+    if (filter_var($post['email'], FILTER_VALIDATE_EMAIL) && (check_email_exist_in_db($connection, $post['email']))) {
+        $errors['email'] = NONEXISTENT_EMAIL;
+    }
+
+    if (filter_var($post['email'], FILTER_VALIDATE_EMAIL) && !(check_email_exist_in_db($connection, $post['email']))) {
+        $user = get_user_by_email($connection, $post['email']);
+
+        if (!password_verify($post['password'], $user['password'])) {
+            $errors['password'] = WRONG_PASSWORD;
+        }
+    }
+
+    if (count($errors)) {
         return $errors;
     }
 
