@@ -2,7 +2,12 @@
 
 function connect($config_db)
 {
-    $connection = mysqli_connect($config_db['host'], $config_db['user'], $config_db['password'], $config_db['database']);
+    $connection = mysqli_connect(
+        $config_db['host'],
+        $config_db['user'],
+        $config_db['password'],
+        $config_db['database']
+    );
 
     if (!$connection) {
         $error = mysqli_connect_error();
@@ -130,3 +135,38 @@ function get_one_lot($connection, $lot_id)
 
     return mysqli_fetch_assoc($db_one_lot);
 }
+
+function check_email_exist_in_db($connection, $email)
+{
+    $emails_query = 'SELECT 
+    email
+    FROM
+    users
+    WHERE email = "' . mysqli_real_escape_string($connection, $email) . '"
+    LIMIT 1';
+
+    $result = mysqli_query($connection, $emails_query);
+    $exists = mysqli_fetch_assoc($result);
+    if ($exists !== null) {
+        return false;
+    }
+    return true;
+}
+
+function check_username_exist_in_db($connection, $username)
+{
+    $username_query = 'SELECT 
+    username
+    FROM
+    users
+    WHERE username = "' . mysqli_real_escape_string($connection, $username) . '"
+    LIMIT 1';
+
+    $result = mysqli_query($connection, $username_query);
+    $exists = mysqli_fetch_assoc($result);
+    if ($exists !== null) {
+        return false;
+    }
+    return true;
+}
+

@@ -9,34 +9,34 @@
         </ul>
     </nav>
     <?php $css_class_form = isset($errors) ? "form--invalid" : ""; ?>
-    <form class="form container <?= $css_class_form; ?>" action="https://echo.htmlacademy.ru" method="post"> <!-- form--invalid -->
+    <form class="form container <?= $css_class_form; ?>" action="/sign-up.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
         <h2>Регистрация нового аккаунта</h2>
         <?php $css_class_form = isset($errors['email']) ? "form__item--invalid" : "";
         $value = isset($sign_up['email']) ? user_input_filter($sign_up['email']) : ""; ?>
         <div class="form__item <?= $css_class_form; ?>"> <!-- form__item--invalid -->
             <label for="email">E-mail*</label>
             <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?= $value; ?>">
-            <span class="form__error">Введите e-mail</span>
+            <span class="form__error"><?= $errors['email']; ?></span>
         </div>
-        <?php $css_class_form = isset($errors['pwd']) ? "form__item--invalid" : ""; ?>
+        <?php $css_class_form = isset($errors['password']) ? "form__item--invalid" : ""; ?>
         <div class="form__item <?= $css_class_form; ?>">
             <label for="password">Пароль*</label>
-            <input id="password" type="text" name="password" placeholder="Введите пароль" required>
-            <span class="form__error">Введите пароль</span>
+            <input id="password" type="text" name="password" placeholder="Введите пароль">
+            <span class="form__error"><?= $errors['password']; ?></span>
         </div>
         <?php $css_class_form = isset($errors['username']) ? "form__item--invalid" : "";
         $value = isset($sign_up['username']) ? user_input_filter($sign_up['username']) : ""; ?>
         <div class="form__item <?= $css_class_form; ?>">
-            <label for="name">Имя*</label>
-            <input id="name" type="text" name="name" placeholder="Введите имя" value="<?= $value; ?>">
-            <span class="form__error">Введите имя</span>
+            <label for="username">Имя*</label>
+            <input id="username" type="text" name="username" placeholder="Введите имя" value="<?= $value; ?>">
+            <span class="form__error"><?= $errors['username']; ?></span>
         </div>
         <?php $css_class_form = isset($errors['contact']) ? "form__item--invalid" : "";
         $value = isset($sign_up['contact']) ? user_input_filter($sign_up['contact']) : ""; ?>
         <div class="form__item <?= $css_class_form; ?>">
-            <label for="message">Контактные данные*</label>
-            <textarea id="message" name="message" placeholder="Напишите как с вами связаться" value="<?= $value; ?>"></textarea>
-            <span class="form__error">Напишите как с вами связаться</span>
+            <label for="contact">Контактные данные*</label>
+            <textarea id="contact" name="contact" placeholder="Напишите как с вами связаться" value="<?= $value; ?>"></textarea>
+            <span class="form__error"><?= $errors['contact']; ?></span>
         </div>
         <?php $css_class_form = isset($errors['image']) ? "form__item--invalid" : ""; ?>
         <div class="form__item form__item--file form__item--last <?= $css_class_form; ?>">
