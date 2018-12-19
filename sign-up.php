@@ -1,0 +1,49 @@
+<?php
+
+require_once 'data.php';
+require_once 'functions/db.php';
+require_once 'functions/filters.php';
+require_once 'functions/template.php';
+require_once 'functions/validators.php';
+require_once 'functions/upload.php';
+
+$config = require 'config.php';
+$connection = connect($config['db']);
+$categories = get_all_categories($connection);
+$errors = null;
+$sign_up = null;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $sign_up = $_POST;
+    $result = validate_sign_up_form($sign_up, $_FILES);
+
+    if ($result === true) {
+        $sign_up['image'] = upload_image($_FILES);
+        $result = db_add_user($connection, $sign_up);
+        header('Location: /login.php');
+        exit;
+    }
+    $errors = $result;
+}
+
+$page_content = include_template(
+    'sign-up.php',
+    [
+        'categories' => $categories,
+        'sign_up' => $sign_up,
+        'errors' => $errors,
+    ]
+);
+
+$layout_content = include_template(
+    'layout.php',
+    [
+        'title' => 'YetiCave - Регистрация',
+        'is_auth' => $is_auth,
+        'user_name' => $user_name,
+        'categories' => $categories,
+        'content' => $page_content,
+    ]
+);
+
+print($layout_content);
