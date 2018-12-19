@@ -23,6 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $new_lot = mysqli_insert_id($connection);
         header('Location: lot.php?id=' . $new_lot);
+
+        if (!$new_lot) {
+            die('При добавлении лота произошла ошибка');
+        }
+
         exit;
     }
     $errors = $result;
