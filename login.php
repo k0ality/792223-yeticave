@@ -32,21 +32,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = $result;
 }
 
-$page_content = include_template(
-    'login.php',
-    [
-        'categories' => $categories,
-        'login' => $login,
-        'errors' => $errors,
-    ]
-);
+if (isset($_SESSION['user'])) {
+    $is_auth = $_SESSION['user'];
+
+    $page_content = include_template(
+        'index.php',
+        [
+            'categories' => $categories,
+            'lots' => $lots
+        ]
+    );
+}
+else {
+    $page_content = include_template(
+        'login.php',
+        [
+            'categories' => $categories,
+            'login' => $login,
+            'errors' => $errors,
+        ]
+    );
+}
 
 $layout_content = include_template(
     'layout.php',
     [
         'title' => 'YetiCave - Вход',
         'is_auth' => $is_auth,
-        'user_name' => $user_name,
         'categories' => $categories,
         'content' => $page_content,
     ]
