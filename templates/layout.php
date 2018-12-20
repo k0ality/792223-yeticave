@@ -19,19 +19,19 @@
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <?php if (isset($user)) : ?>
+            <?php if (isset($is_auth)) : ?>
             <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
-            <?php endif; ?>
             <nav class="user-menu">
-                <?php if (isset($user)) : ?>
+                <?php if ($is_auth['avatar']) : ?>
                     <div class="user-menu__image">
                         <img src="<?= $user_avatar; ?>" width="40" height="40" alt="Пользователь">
                     </div>
+                <?php endif; ?>
                     <div class="user-menu__logged">
-                        <p><?= user_input_filter($user_name); ?></p>
+                        <p><?= user_input_filter($is_auth['username']); ?></p>
                         <a href="/logout.php">Выход</a>
                     </div>
-                <?php else : ?>
+            <?php else : ?>
                     <ul class="user-menu__list">
                         <li class="user-menu__item">
                             <a href="sign-up.php">Регистрация</a>
@@ -40,7 +40,7 @@
                             <a href="login.php">Вход</a>
                         </li>
                     </ul>
-                <?php endif; ?>
+            <?php endif; ?>
             </nav>
         </div>
     </header>
