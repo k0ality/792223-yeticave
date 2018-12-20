@@ -18,7 +18,6 @@
                     <p class="lot-item__category">Категория: <span><?= $one_lot['cat_name']; ?></span></p>
                     <p class="lot-item__description"><?= $one_lot['description']; ?></p>
                 </div>
-            </div>
             <div class="lot-item__right">
                 <?php if (isset($is_auth)) : ?>
                 <div class="lot-item__state">
@@ -99,6 +98,7 @@
                         </tr>
                     </table>
                 </div>
+            </div>
             </div>
         </section>
     </main>
