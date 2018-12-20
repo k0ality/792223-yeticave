@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 if (!isset($is_auth)) {
     http_response_code(403);
-    $error = http_response_code();
+    $error = http_response_code() . ' (Доступ неавторизированным пользователям запрещён)';
     error_template($error, null, $categories);
 }
 
