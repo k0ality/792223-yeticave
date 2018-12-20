@@ -29,7 +29,8 @@ if (!isset($one_lot['id'])) {
 $page_content = include_template(
     'lot.php',
     ['categories' => $categories,
-    'one_lot' => $one_lot]
+    'one_lot' => $one_lot,
+    'is_auth' => $is_auth]
 );
 
 $layout_content = include_template(
