@@ -49,7 +49,7 @@
             </div>
             <span class="form__error"><?= $errors['image']; ?></span>
             <div class="form__input-file">
-                <input class="visually-hidden" type="file" id="photo2" value="">
+                <input class="visually-hidden" type="file" id="photo2" name="jpg_img" value="">
                 <label for="photo2">
                     <span>+ Добавить</span>
                 </label>
