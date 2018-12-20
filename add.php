@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = validate_lot_form($new_lot, $_FILES);
 
     if ($result === true) {
-        $new_lot['image'] = upload_image($_FILES);
+        $new_lot['image'] = '/img/' . upload_image($_FILES);
         $result = db_add_lot($connection, $new_lot);
 
         $new_lot = mysqli_insert_id($connection);

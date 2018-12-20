@@ -16,9 +16,8 @@ function upload_image($files)
     }
 
     $file_path = __DIR__ . '/../img/';
-    $file_url = '/img/' . $file_name;
     move_uploaded_file($_FILES['jpg_img']['tmp_name'], $file_path . $file_name);
 
-    return $file_url;
+    return $file_name;
 }
 
