@@ -19,15 +19,17 @@
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
+            <?php if (isset($user)) : ?>
             <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
-
+            <?php endif; ?>
             <nav class="user-menu">
-                <?php if ($is_auth === 1) : ?>
+                <?php if (isset($user)) : ?>
                     <div class="user-menu__image">
-                        <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
+                        <img src="<?= $user_avatar; ?>" width="40" height="40" alt="Пользователь">
                     </div>
                     <div class="user-menu__logged">
                         <p><?= user_input_filter($user_name); ?></p>
+                        <a href="/logout.php">Выход</a>
                     </div>
                 <?php else : ?>
                     <ul class="user-menu__list">
@@ -39,7 +41,6 @@
                         </li>
                     </ul>
                 <?php endif; ?>
-                <!-- здесь должен быть PHP код для показа аватара пользователя -->
             </nav>
         </div>
     </header>
@@ -99,7 +100,9 @@
                 </svg>
             </a>
         </div>
+        <?php if (isset($user)) : ?>
         <a class="main-footer__add-lot button" href="add.php">Добавить лот</a>
+        <?php endif; ?>
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>
             <a class="logo-academy" href="https://htmlacademy.ru/intensive/php">
