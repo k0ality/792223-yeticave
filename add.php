@@ -32,6 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = $result;
 }
 
+if (!isset($is_auth)) {
+    http_response_code(403);
+    $error = http_response_code();
+    error_template($error, null, $categories);
+}
+
 $page_content = include_template(
     'add-lot.php',
     [
