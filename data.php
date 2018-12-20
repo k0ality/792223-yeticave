@@ -1,5 +1,10 @@
 <?php
 
-$is_auth = rand(0, 1);
-$user_name = 'Снежок';
-$user_avatar = 'img/user.jpg';
+$is_auth = null;
+$rate_add = [];
+
+session_start();
+
+if (isset($_SESSION['user'])) {
+    $is_auth = $_SESSION['user'];
+};
