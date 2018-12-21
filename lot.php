@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             die('При добавлении лота произошла ошибка');
         }
 
-        header("Location: ".$_SERVER['PHP_SELF']);
+        header("Refresh: 0");
         exit;
     }
 }
