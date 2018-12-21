@@ -154,6 +154,7 @@ function get_one_lot($connection, $lot_id)
     lots.price_increment,
     lots.seller_id,
     lots.image,
+    lots.closing_time,
     categories.name AS `cat_name`
     FROM
     lots
@@ -283,4 +284,18 @@ function db_add_bid($connection, $bid, $lot_id)
     $result = mysqli_stmt_execute($stmt);
 
     return $result;
+}
+
+function get_all_bidders_for_one_lot($connection, $lot_id)
+{
+    $all_bidders_query = 'SELECT
+    buyer_id
+    FROM
+    bids
+    WHERE
+    lot_id = "' . mysqli_real_escape_string($connection, $lot_id) . '"';
+
+    $db_bidders = mysqli_query($connection, $all_bidders_query);
+
+    return mysqli_fetch_all($db_bidders, MYSQLI_ASSOC);
 }

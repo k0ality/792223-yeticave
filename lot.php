@@ -33,27 +33,27 @@ $highest_bid = get_highest_bid_for_one_lot($connection, $lot_id);
 if ($highest_bid['amount'] !== null && $highest_bid['amount'] > $one_lot['opening_price']) {
     $current_price = $highest_bid['amount'];
 }
+
 $min_bid = $current_price + $one_lot['price_increment'];
 $bids = get_all_bids_for_one_lot($connection, $lot_id);
-
+$errors = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $add_bid = $_POST;
-    $result = validate_lot_bid_form($_POST, $min_bid);
+    $errors = validate_lot_bid_form($_POST, $min_bid);
 
-    if ($result === true && isset($is_auth)) {
+    if ($errors === null && isset($is_auth)) {
         $add_bid['buyer_id'] = $is_auth['id'];
         $add_bid['amount'] = $_POST['new_bid'];
-        $add_bid['$result'] = db_add_bid($connection, $add_bid, $lot_id);
+        $result = db_add_bid($connection, $add_bid, $lot_id);
 
-        if (!$add_bid['$result']) {
+        if (!$result) {
             die('При добавлении лота произошла ошибка');
         }
 
         header("Location: ".$_SERVER['PHP_SELF']);
         exit;
     }
-    $errors = $result;
 }
 
 $page_content = include_template(
@@ -62,8 +62,9 @@ $page_content = include_template(
     'one_lot' => $one_lot,
     'is_auth' => $is_auth,
     'min_bid' => $min_bid,
-    'current_price'=> $current_price,
-    'bids'=> $bids]
+    'current_price' => $current_price,
+    'bids' => $bids,
+    'errors' => $errors]
 );
 
 $layout_content = include_template(

@@ -118,7 +118,7 @@ function validate_lot_bid_form($post, $min_bid)
         return $errors;
     }
 
-    return true;
+    return null;
 }
 
 function notify_required_fields($input, $required)
