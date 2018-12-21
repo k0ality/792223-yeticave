@@ -5,6 +5,10 @@ define("INVALID_NO_FILE", "Вы не добавили изображение");
 define("INVALID_FILE_TYPE", "Добавьте файл в формате JPG/JPEG, PNG или GIF");
 define("INVALID_NOT_A_POSITIVE_INT", "Введите целое положительное число");
 define("INVALID_DATE", "Введите дату (не ранее завтрашнего дня)");
+define("INVALID_EMAIL", "Недействительный email");
+define("INVALID_PASSWORD", "Мин 4 символа. Разрешена латиница, цифры, символы");
+define("EXISTING_EMAIL", "Пользователь с таким email уже зарегистрирован");
+define("EXISTING_USERNAME", "Пользователь с таким именем уже зарегистрирован");
 
 function validate_lot_form($post, $files)
 {
@@ -31,6 +35,39 @@ function validate_lot_form($post, $files)
         if (!validate_input_date($post['closing_time'])) {
             $errors['closing_time'] = INVALID_DATE;
         }
+    }
+
+    if (count($errors)) {
+        $errors['hint'] = INVALID_HINT;
+        return $errors;
+    }
+
+    return true;
+}
+
+function validate_sign_up_form($post, $files, $connection)
+{
+    $required = ['email', 'password', 'username', 'contact'];
+    $errors = notify_required_fields($post, $required);
+
+    if (!isset($errors['email']) && !(filter_var($post['email'], FILTER_VALIDATE_EMAIL))) {
+        $errors['email'] = INVALID_EMAIL;
+    }
+
+    if (filter_var($post['email'], FILTER_VALIDATE_EMAIL) && !(check_email_exist_in_db($connection, $post['email']))) {
+        $errors['email'] = EXISTING_EMAIL;
+    }
+
+    if (!isset($errors['password']) && !validate_password($post['password'])) {
+        $errors['password'] = INVALID_PASSWORD;
+    }
+
+    if (!isset($errors['username']) && !check_username_exist_in_db($connection, $post['username'])) {
+        $errors['username'] = EXISTING_USERNAME;
+    }
+
+    if (check_isset_file($files) && !validate_image($files)) {
+        $errors['image'] = INVALID_FILE_TYPE;
     }
 
     if (count($errors)) {
@@ -88,6 +125,20 @@ function validate_image($files)
     $file_info = finfo_open(FILEINFO_MIME_TYPE);
     $file_type = finfo_file($file_info, $file_name);
     $valid = $file_type === "image/png" || $file_type === "image/jpeg" || $file_type === "image/jpg" || $file_type === "image/gif";
+
+    return $valid;
+}
+
+/* Allowed characters:
+* a to z, A to Z
+* 0 to 9
+* - -  ~ ! @ # $% ^ & * ()
+*/
+function validate_password($input)
+{
+    $pattern = '/^[A-Za-z0-9_~\-!@#$%^&*()]{4,30}$/';
+    $valid = preg_match($pattern, $input);
+
     return $valid;
 }
 

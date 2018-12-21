@@ -11,32 +11,32 @@ $config = require 'config.php';
 $connection = connect($config['db']);
 $categories = get_all_categories($connection);
 $errors = null;
-$new_lot = null;
+$sign_up = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $new_lot = $_POST;
-    $result = validate_lot_form($new_lot, $_FILES);
+    $sign_up = $_POST;
+    $result = validate_sign_up_form($sign_up, $_FILES, $connection);
 
     if ($result === true) {
-        $new_lot['image'] = '/img/' . upload_image($_FILES);
-        $result = db_add_lot($connection, $new_lot);
+        $sign_up['image'] = upload_image($_FILES);
+        $sign_up['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $sign_up['$result'] = db_add_user($connection, $sign_up);
 
-        $new_lot = mysqli_insert_id($connection);
-        if (!$new_lot) {
-            die('При добавлении лота произошла ошибка');
+        if (!$sign_up['$result']) {
+            die('При создании пользователя произошла ошибка');
         }
 
-        header('Location: lot.php?id=' . $new_lot);
+        header('Location: /login.php');
         exit;
     }
     $errors = $result;
 }
 
 $page_content = include_template(
-    'add-lot.php',
+    'sign-up.php',
     [
         'categories' => $categories,
-        'new_lot' => $new_lot,
+        'sign_up' => $sign_up,
         'errors' => $errors,
     ]
 );
@@ -44,7 +44,7 @@ $page_content = include_template(
 $layout_content = include_template(
     'layout.php',
     [
-        'title' => 'YetiCave - Добавить лот',
+        'title' => 'YetiCave - Регистрация',
         'is_auth' => $is_auth,
         'user_name' => $user_name,
         'categories' => $categories,
