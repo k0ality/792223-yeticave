@@ -610,6 +610,7 @@ main.container {
 }
 
 .lot__image img {
+  object-fit: contain;
   width: 100%;
   height: 100%;
 }
@@ -985,6 +986,7 @@ input:invalid .form__error{
 }
 
 .lot-item__image img {
+  object-fit: contain;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -1010,6 +1012,7 @@ input:invalid .form__error{
 
 .lot-item__state {
   padding: 30px;
+  margin-bottom:34px;
   background-color: #ffffff;
 }
 
@@ -1094,9 +1097,9 @@ input:invalid .form__error{
 
 /* История ставок */
 
-.history {
+/* .history {
   margin-top: 34px;
-}
+} */
 
 .history h3 {
   margin: 0;
