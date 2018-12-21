@@ -151,6 +151,8 @@ function get_one_lot($connection, $lot_id)
     lots.product,
     lots.description,
     lots.opening_price,
+    lots.price_increment,
+    lots.seller_id,
     lots.image,
     categories.name AS `cat_name`
     FROM
@@ -211,3 +213,57 @@ function check_username_exist_in_db($connection, $username)
     return true;
 }
 
+function get_highest_bid_for_one_lot($connection, $lot_id)
+{
+    $highest_bid_query = 'SELECT 
+    amount
+    FROM
+    bids
+    WHERE lot_id = "' . mysqli_real_escape_string($connection, $lot_id) . '"
+    ORDER BY amount DESC
+    LIMIT 1';
+
+    $db_highest_bid = mysqli_query($connection, $highest_bid_query);
+    //$exists = mysqli_fetch_assoc($db_highest_bid);
+    //if ($exists !== null) {
+    //    return false;
+    //}
+    return mysqli_fetch_assoc($db_highest_bid);
+}
+
+function get_all_bids_for_one_lot($connection, $lot_id)
+{
+    $all_bids_query = 'SELECT 
+    *
+    FROM
+    bids
+    WHERE lot_id = "' . mysqli_real_escape_string($connection, $lot_id) . '"';
+
+    $db_bids = mysqli_query($connection, $all_bids_query);
+    return mysqli_fetch_all($db_bids, MYSQLI_ASSOC);
+}
+
+function db_add_bid($connection, $bid, $lot_id)
+{
+    $add_bid_query = "INSERT INTO
+        bids (
+        amount,
+        buyer_id,
+        lot_id
+        )
+        VALUES
+        (?, ?, ?)";
+
+    $stmt = db_get_prepare_stmt(
+        $connection,
+        $add_bid_query,
+        [
+            $bid['amount'],
+            $bid['buyer_id'],
+            $lot_id,
+
+        ]
+    );
+    $result = mysqli_stmt_execute($stmt);
+    return $result;
+}

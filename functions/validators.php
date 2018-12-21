@@ -11,6 +11,7 @@ define("EXISTING_EMAIL", "Пользователь с таким email уже з
 define("EXISTING_USERNAME", "Пользователь с таким именем уже зарегистрирован");
 define("NONEXISTENT_EMAIL", "Пользователь с таким email ещё не зарегистрирован");
 define("WRONG_PASSWORD", "Вы ввели неверный пароль");
+define("INVALID_LOW_BID", "Ставка не может быть меньше текущей минимальной ставки");
 
 function validate_lot_form($post, $files)
 {
@@ -99,6 +100,26 @@ function validate_login_form($post, $connection)
         if (!password_verify($post['password'], $user['password'])) {
             $errors['password'] = WRONG_PASSWORD;
         }
+    }
+
+    if (count($errors)) {
+        return $errors;
+    }
+
+    return true;
+}
+
+function validate_lot_bid_form($post, $min_bid)
+{
+    $required = ['new_bid'];
+    $errors = notify_required_fields($post, $required);
+
+    if (!isset($errors['new_bid']) && !validate_input_number($post['new_bid'])) {
+        $errors['new_bid'] = INVALID_NOT_A_POSITIVE_INT;
+    }
+
+    if (validate_input_number($post['new_bid']) && $post['new_bid'] < $min_bid) {
+        $errors['new_bid'] = INVALID_LOW_BID;
     }
 
     if (count($errors)) {
