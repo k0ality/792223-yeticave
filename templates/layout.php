@@ -24,7 +24,7 @@
             <nav class="user-menu">
                 <?php if ($is_auth['avatar']) : ?>
                     <div class="user-menu__image">
-                        <img src="<?= $is_auth['avatar']; ?>" width="40" height="40" alt="Пользователь">
+                        <img src="<?= 'img/' . $is_auth['avatar']; ?>" width="40" height="40" alt="Пользователь">
                     </div>
                 <?php endif; ?>
                     <div class="user-menu__logged">
