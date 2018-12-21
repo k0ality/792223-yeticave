@@ -30,6 +30,8 @@ if (!isset($one_lot['id'])) {
 $current_price = $one_lot['opening_price'];
 $highest_bid = get_highest_bid_for_one_lot($connection, $lot_id);
 
+$restricted_bidder = check_bidder_role($connection, $lot_id, $is_auth['id']);
+
 if ($highest_bid['amount'] !== null && $highest_bid['amount'] > $one_lot['opening_price']) {
     $current_price = $highest_bid['amount'];
 }
@@ -64,6 +66,7 @@ $page_content = include_template(
     'min_bid' => $min_bid,
     'current_price' => $current_price,
     'bids' => $bids,
+    'restricted_bidder' => $restricted_bidder,
     'errors' => $errors]
 );
 

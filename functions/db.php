@@ -286,16 +286,21 @@ function db_add_bid($connection, $bid, $lot_id)
     return $result;
 }
 
-function get_all_bidders_for_one_lot($connection, $lot_id)
+function check_bidder_role($connection, $lot_id, $user_id)
 {
-    $all_bidders_query = 'SELECT
+    $username_query = 'SELECT
     buyer_id
     FROM
     bids
     WHERE
-    lot_id = "' . mysqli_real_escape_string($connection, $lot_id) . '"';
+    lot_id = "' . mysqli_real_escape_string($connection, $lot_id) . '"
+    && buyer_id = "' . mysqli_real_escape_string($connection, $user_id) . '"
+    LIMIT 1';
 
-    $db_bidders = mysqli_query($connection, $all_bidders_query);
-
-    return mysqli_fetch_all($db_bidders, MYSQLI_ASSOC);
+    $result = mysqli_query($connection, $username_query);
+    $exists = mysqli_fetch_assoc($result);
+    if ($exists !== null) {
+        return true;
+    }
+    return false;
 }

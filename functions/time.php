@@ -25,5 +25,15 @@ function time_since_bid($string)
     } else {
         $time_ago = 'меньше минуты назад';
     }
+
     return $time_ago;
+}
+
+function lot_expiration_date($string)
+{
+    if (strtotime('now') > strtotime($string)) {
+        return false;
+    }
+
+    return true;
 }

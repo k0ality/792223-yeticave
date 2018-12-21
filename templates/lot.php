@@ -21,6 +21,7 @@
                 </div>
 
                 <div class="lot-item__right">
+                    <?php if (lot_expiration_date($one_lot['closing_time'])) : ?>
                     <div class="lot-item__state">
                         <div class="lot-item__timer timer">
                             <?= time_before_tomorrow(); ?>
@@ -36,7 +37,7 @@
                                 Мин. ставка <span><?= format_price($min_bid); ?></span>
                             </div>
                         </div>
-                        <?php if (isset($is_auth) && $is_auth['id'] !== $one_lot['seller_id']) : ?>
+                            <?php if (isset($is_auth) && $is_auth['id'] !== $one_lot['seller_id'] && !$restricted_bidder) : ?>
                             <form class="lot-item__form" action="lot.php?id=<?= user_input_filter($one_lot['id']); ?>" method="post">
                                 <?php $css_class_form = !empty($errors) ? 'form__item--invalid' : ''; ?>
                                 <p class="lot-item__form-item form__item <?= $css_class_form; ?>">
@@ -48,8 +49,9 @@
                                 </p>
                                 <button type="submit" class="button">Сделать ставку</button>
                             </form>
-                        <?php endif; ?>
+                            <?php endif; ?>
                     </div>
+                    <?php endif; ?>
                     <div class="history">
                         <h3>История ставок (<span><?= count($bids) ;?></span>)</h3>
                         <table class="history__list">
