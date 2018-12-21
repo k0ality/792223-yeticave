@@ -55,7 +55,7 @@ function db_get_prepare_stmt(
     return $stmt;
 }
 
-function db_add_lot($connection, $new_lot)
+function db_add_lot($connection, $new_lot, $seller_id)
 {
     $add_lot_query = "INSERT INTO
         lots (
@@ -69,7 +69,7 @@ function db_add_lot($connection, $new_lot)
         seller_id
         )
         VALUES
-        (?, ?, ?, ?, ?, ?, ?, 1)";
+        (?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = db_get_prepare_stmt(
         $connection,
@@ -82,6 +82,7 @@ function db_add_lot($connection, $new_lot)
             $new_lot['price_increment'],
             $new_lot['closing_time'],
             $new_lot['image'],
+            $seller_id,
         ]
     );
     $result = mysqli_stmt_execute($stmt);
