@@ -56,7 +56,7 @@
                             <?php if ($bids) :?>
                                 <?php foreach ($bids as $bid) :?>
                                     <tr class="history__item">
-                                        <td class="history__name"><?=user_input_filter($bid['buyer_id']); ?></td>
+                                        <td class="history__name"><?=user_input_filter($bid['username']); ?></td>
                                         <td class="history__price"><?=format_price($bid['amount']); ?></td>
                                         <td class="history__time"><?=time_since_bid($bid['create_time']); ?></td>
                                     </tr>

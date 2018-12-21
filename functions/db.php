@@ -230,13 +230,19 @@ function get_highest_bid_for_one_lot($connection, $lot_id)
 
 function get_all_bids_for_one_lot($connection, $lot_id)
 {
-    $all_bids_query = 'SELECT 
-    *
+    $all_bids_query = 'SELECT
+    bids.*,
+    users.username
     FROM
     bids
-    WHERE lot_id = "' . mysqli_real_escape_string($connection, $lot_id) . '"';
+    JOIN users ON bids.buyer_id = users.id
+    WHERE
+    lot_id = "' . mysqli_real_escape_string($connection, $lot_id) . '"
+    ORDER BY
+    create_time DESC';
 
     $db_bids = mysqli_query($connection, $all_bids_query);
+
     return mysqli_fetch_all($db_bids, MYSQLI_ASSOC);
 }
 
@@ -262,5 +268,6 @@ function db_add_bid($connection, $bid, $lot_id)
         ]
     );
     $result = mysqli_stmt_execute($stmt);
+
     return $result;
 }

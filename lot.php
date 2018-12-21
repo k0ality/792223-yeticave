@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result === true && isset($is_auth)) {
         $add_bid['buyer_id'] = $is_auth['id'];
+        $add_bid['amount'] = $_POST['new_bid'];
         $add_bid['$result'] = db_add_bid($connection, $add_bid, $lot_id);
 
         if (!$add_bid['$result']) {
