@@ -119,7 +119,7 @@ function db_add_user($connection, $sign_up)
 
 function get_all_categories($connection)
 {
-    $db_categories = mysqli_query($connection, 'SELECT id, name FROM categories;');
+    $db_categories = mysqli_query($connection, 'SELECT id, name, alias FROM categories ORDER BY id ASC');
 
     return mysqli_fetch_all($db_categories, MYSQLI_ASSOC);
 }

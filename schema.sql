@@ -6,7 +6,8 @@ USE yeticave;
 
 CREATE TABLE categories (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL
+  name VARCHAR(255) NOT NULL,
+  alias VARCHAR(255) NOT NULL
 );
 CREATE UNIQUE INDEX categories_udx ON categories(name);
 
