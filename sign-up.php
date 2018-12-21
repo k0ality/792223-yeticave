@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sign_up = $_POST;
     $result = validate_sign_up_form($sign_up, $_FILES, $connection);
 
-    if ($result === true) {
+    if ($result === null) {
         $sign_up['image'] = upload_image($_FILES);
         $sign_up['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $sign_up['$result'] = db_add_user($connection, $sign_up);

@@ -179,6 +179,19 @@ function get_user_by_email($connection, $email)
     return mysqli_fetch_assoc($user_info);
 }
 
+function get_user_by_id($connection, $id)
+{
+    $user_id_query = 'SELECT 
+    *
+    FROM
+    users
+    WHERE id = "' . mysqli_real_escape_string($connection, $id) . '"';
+
+    $user_info = mysqli_query($connection, $user_id_query);
+
+    return mysqli_fetch_assoc($user_info);
+}
+
 function check_email_exist_in_db($connection, $email)
 {
     $emails_query = 'SELECT 

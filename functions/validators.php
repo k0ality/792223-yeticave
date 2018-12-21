@@ -45,7 +45,7 @@ function validate_lot_form($post, $files)
         return $errors;
     }
 
-    return true;
+    return null;
 }
 
 function validate_sign_up_form($post, $files, $connection)
@@ -78,7 +78,7 @@ function validate_sign_up_form($post, $files, $connection)
         return $errors;
     }
 
-    return true;
+    return null;
 }
 
 function validate_login_form($post, $connection)
@@ -94,19 +94,11 @@ function validate_login_form($post, $connection)
         $errors['email'] = NONEXISTENT_EMAIL;
     }
 
-    if (filter_var($post['email'], FILTER_VALIDATE_EMAIL) && !(check_email_exist_in_db($connection, $post['email']))) {
-        $user = get_user_by_email($connection, $post['email']);
-
-        if (!password_verify($post['password'], $user['password'])) {
-            $errors['password'] = WRONG_PASSWORD;
-        }
-    }
-
     if (count($errors)) {
         return $errors;
     }
 
-    return true;
+    return null;
 }
 
 function validate_lot_bid_form($post, $min_bid)

@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_lot = $_POST;
     $result = validate_lot_form($new_lot, $_FILES);
 
-    if ($result === true) {
+    if ($result === null) {
         $new_lot['image'] = '/img/' . upload_image($_FILES);
         $result = db_add_lot($connection, $new_lot);
 
