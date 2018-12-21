@@ -224,10 +224,7 @@ function get_highest_bid_for_one_lot($connection, $lot_id)
     LIMIT 1';
 
     $db_highest_bid = mysqli_query($connection, $highest_bid_query);
-    //$exists = mysqli_fetch_assoc($db_highest_bid);
-    //if ($exists !== null) {
-    //    return false;
-    //}
+
     return mysqli_fetch_assoc($db_highest_bid);
 }
 

@@ -5,6 +5,7 @@ require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
 require_once 'functions/time.php';
+require_once 'functions/validators.php';
 
 $config = require 'config.php';
 $connection = connect($config['db']);
@@ -25,12 +26,13 @@ if (!isset($one_lot['id'])) {
     $error = http_response_code();
     error_template($error, $is_auth, $categories);
 }
+
+$current_price = $one_lot['opening_price'];
 $highest_bid = get_highest_bid_for_one_lot($connection, $lot_id);
 
-if ($highest_bid < $one_lot['opening_price']) {
-    $current_price = $one_lot['opening_price'];
+if ($highest_bid['amount'] !== null && $highest_bid['amount'] > $one_lot['opening_price']) {
+    $current_price = $highest_bid['amount'];
 }
-$current_price = $highest_bid;
 $min_bid = $current_price + $one_lot['price_increment'];
 $bids = get_all_bids_for_one_lot($connection, $lot_id);
 
