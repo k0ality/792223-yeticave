@@ -18,7 +18,7 @@ function include_template($name, $data)
     return $result;
 }
 
-function error_template($error, $is_auth, $categories)
+function error_template($error, $user, $categories)
 {
     $error_content = include_template('error.php', [
         'error' => $error,
@@ -28,7 +28,7 @@ function error_template($error, $is_auth, $categories)
         'layout.php',
         [
             'title' => 'YetiCave - Ошибка',
-            'is_auth' => $is_auth,
+            'user' => $user,
             'categories' => $categories,
             'content' => $error_content,
         ]

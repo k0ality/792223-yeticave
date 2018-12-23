@@ -1,6 +1,5 @@
 <?php
 
-require_once 'data.php';
 require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
@@ -13,8 +12,9 @@ $connection = connect($config['db']);
 $categories = get_all_categories($connection);
 $errors = null;
 $login_form = null;
+$user = auth_user_by_session($connection);
 
-if (auth_user_by_session($connection)) {
+if ($user) {
     header('Location: /index.php');
     exit;
 }
@@ -49,7 +49,7 @@ $layout_content = include_template(
     'layout.php',
     [
         'title' => 'YetiCave - Вход',
-        'is_auth' => $is_auth,
+        'user' => $user,
         'categories' => $categories,
         'content' => $page_content,
     ]

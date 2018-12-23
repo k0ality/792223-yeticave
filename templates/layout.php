@@ -19,16 +19,16 @@
                 <input type="search" name="search" placeholder="Поиск лота">
                 <input class="main-header__search-btn" type="submit" name="find" value="Найти">
             </form>
-            <?php if (isset($is_auth)) : ?>
+            <?php if (isset($user)) : ?>
             <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
             <nav class="user-menu">
-                <?php if ($is_auth['avatar']) : ?>
+                <?php if ($user['avatar']) : ?>
                     <div class="user-menu__image">
-                        <img src="<?= 'img/' . $is_auth['avatar']; ?>" width="40" height="40" alt="Пользователь">
+                        <img src="<?= 'img/' . $user['avatar']; ?>" width="40" height="40" alt="Пользователь">
                     </div>
                 <?php endif; ?>
                     <div class="user-menu__logged">
-                        <p><?= user_input_filter($is_auth['username']); ?></p>
+                        <p><?= user_input_filter($user['username']); ?></p>
                         <a href="/logout.php">Выход</a>
                     </div>
             <?php else : ?>
