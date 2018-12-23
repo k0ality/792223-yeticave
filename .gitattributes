@@ -6,7 +6,7 @@
 *.webp binary
 *.woff binary
 *.woff2 binary
-css/
-fonts/
-img/
-pages/
+css/* linguist-vendored
+fonts/* linguist-vendored
+img/* linguist-vendored
+pages/* linguist-vendored
