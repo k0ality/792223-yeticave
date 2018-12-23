@@ -212,3 +212,34 @@ WHERE
   lot_id = 1
 ORDER BY
   create_time DESC;
+
+# Запрос на добавление новой колонки в существующую таблицу;
+
+ALTER TABLE categories
+ADD COLUMN alias VARCHAR(255) NOT NULL AFTER name;
+
+# Запрос на добавление данных в новую колонку существующей таблицы;
+
+UPDATE categories
+SET alias = "boards"
+WHERE name = "Доски и лыжи";
+
+UPDATE categories
+SET alias = "attachment"
+WHERE name = "Крепления";
+
+UPDATE categories
+SET alias = "boots"
+WHERE name = "Ботинки";
+
+UPDATE categories
+SET alias = "clothing"
+WHERE name = "Одежда";
+
+UPDATE categories
+SET alias = "tools"
+WHERE name = "Инструменты";
+
+UPDATE categories
+SET alias = "other"
+WHERE name = "Разное";
