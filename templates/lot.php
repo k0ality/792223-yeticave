@@ -37,7 +37,7 @@
                                 Мин. ставка <span><?= format_price($min_bid); ?></span>
                             </div>
                         </div>
-                            <?php if (isset($is_auth) && $is_auth['id'] !== $one_lot['seller_id'] && !$restricted_bidder) : ?>
+                            <?php if (isset($user) && $user['id'] !== $one_lot['seller_id'] && !$restricted_bidder) : ?>
                             <form class="lot-item__form" action="lot.php?id=<?= user_input_filter($one_lot['id']); ?>" method="post">
                                 <?php $css_class_form = !empty($errors) ? 'form__item--invalid' : ''; ?>
                                 <p class="lot-item__form-item form__item <?= $css_class_form; ?>">
