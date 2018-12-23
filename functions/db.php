@@ -98,7 +98,7 @@ function db_add_lot($connection, $new_lot, $seller_id)
     return $result;
 }
 
-function db_add_user($connection, $sign_up)
+function db_add_user($connection, $sign_up_form)
 {
     $add_lot_query = "INSERT INTO
         users (
@@ -115,11 +115,11 @@ function db_add_user($connection, $sign_up)
         $connection,
         $add_lot_query,
         [
-            $sign_up['email'],
-            $sign_up['password'],
-            $sign_up['username'],
-            $sign_up['contact'],
-            $sign_up['image'],
+            $sign_up_form['email'],
+            $sign_up_form['password'],
+            $sign_up_form['username'],
+            $sign_up_form['contact'],
+            $sign_up_form['image'],
         ]
     );
     $result = mysqli_stmt_execute($stmt);
