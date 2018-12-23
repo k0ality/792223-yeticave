@@ -4,6 +4,7 @@ require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
 require_once 'functions/time.php';
+require_once 'functions/auth.php';
 
 $config = require 'config.php';
 $connection = connect($config['db']);

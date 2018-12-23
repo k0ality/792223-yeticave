@@ -5,6 +5,7 @@ require_once 'functions/filters.php';
 require_once 'functions/template.php';
 require_once 'functions/validators.php';
 require_once 'functions/upload.php';
+require_once 'functions/auth.php';
 
 $config = require 'config.php';
 $connection = connect($config['db']);
