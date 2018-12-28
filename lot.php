@@ -32,7 +32,7 @@ $page_content = include_template(
     'lot.php',
     ['categories' => $categories,
     'one_lot' => $one_lot,
-    'is_auth' => $user]
+    'user' => (bool)$user]
 );
 
 $layout_content = include_template(

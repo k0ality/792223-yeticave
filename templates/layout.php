@@ -100,7 +100,7 @@
                 </svg>
             </a>
         </div>
-        <?php if (isset($is_auth)) : ?>
+        <?php if ($user) : ?>
         <a class="main-footer__add-lot button" href="add.php">Добавить лот</a>
         <?php endif; ?>
         <div class="main-footer__developed-by">

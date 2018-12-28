@@ -19,7 +19,7 @@
                     <p class="lot-item__description"><?= $one_lot['description']; ?></p>
                 </div>
             <div class="lot-item__right">
-                <?php if (isset($is_auth)) : ?>
+                <?php if ($user) : ?>
                 <div class="lot-item__state">
                     <div class="lot-item__timer timer">
                         10:54
