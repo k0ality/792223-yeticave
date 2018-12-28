@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';

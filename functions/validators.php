@@ -12,7 +12,7 @@ define("EXISTING_USERNAME", "Пользователь с таким именем
 define("NONEXISTENT_EMAIL", "Пользователь с таким email ещё не зарегистрирован");
 define("WRONG_PASSWORD", "Вы ввели неверный пароль");
 
-function validate_lot_form($post, $files)
+function errors_validate_lot_form($post, $files)
 {
     $required = ['product', 'category', 'description', 'opening_price', 'price_increment', 'closing_time'];
     $errors = notify_required_fields($post, $required);
@@ -47,7 +47,7 @@ function validate_lot_form($post, $files)
     return null;
 }
 
-function validate_sign_up_form($post, $files, $connection)
+function errors_validate_sign_up_form($post, $files, $connection)
 {
     $required = ['email', 'password', 'username', 'contact'];
     $errors = notify_required_fields($post, $required);
@@ -80,7 +80,7 @@ function validate_sign_up_form($post, $files, $connection)
     return null;
 }
 
-function validate_login_form($post, $connection)
+function errors_validate_login_form($post, $connection)
 {
     $required = ['email', 'password'];
     $errors = notify_required_fields($post, $required);
