@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
@@ -22,11 +24,15 @@ if (!$user) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_lot = $_POST;
-    $result = validate_lot_form($new_lot, $_FILES);
+    $errors = errors_validate_lot_form($new_lot, $_FILES);
 
-    if ($result === null) {
+    if ($errors === null) {
         $new_lot['image'] = 'img/' . upload_image($_FILES);
+<<<<<<< HEAD
         $result = db_add_lot($connection, $new_lot, $user['id']);
+=======
+        db_add_lot($connection, $new_lot);
+>>>>>>> module7-task2
 
         $new_lot = mysqli_insert_id($connection);
         if (!$new_lot) {
@@ -36,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('Location: lot.php?id=' . $new_lot);
         exit;
     }
-    $errors = $result;
 }
 
 $page_content = include_template(

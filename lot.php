@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once 'functions/db.php';
 require_once 'functions/filters.php';
 require_once 'functions/template.php';
@@ -62,7 +64,7 @@ $page_content = include_template(
     'lot.php',
     ['categories' => $categories,
     'one_lot' => $one_lot,
-    'user' => $user,
+    'user' => (bool)$user,
     'min_bid' => $min_bid,
     'current_price' => $current_price,
     'bids' => $bids,

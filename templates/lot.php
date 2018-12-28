@@ -19,7 +19,6 @@
                     <p class="lot-item__category">Категория: <span><?= $one_lot['cat_name']; ?></span></p>
                     <p class="lot-item__description"><?= $one_lot['description']; ?></p>
                 </div>
-
                 <div class="lot-item__right">
                     <?php if (lot_expiration_date($one_lot['closing_time'])) : ?>
                     <div class="lot-item__state">

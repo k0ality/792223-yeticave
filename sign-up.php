@@ -16,21 +16,20 @@ $sign_up = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sign_up = $_POST;
-    $result = validate_sign_up_form($sign_up, $_FILES, $connection);
+    $errors = errors_validate_sign_up_form($sign_up, $_FILES, $connection);
 
-    if ($result === null) {
+    if ($errors === null) {
         $sign_up['image'] = upload_image($_FILES);
         $sign_up['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $sign_up['$result'] = db_add_user($connection, $sign_up);
+        $result = db_add_user($connection, $sign_up);
 
-        if (!$sign_up['$result']) {
+        if (!$result) {
             die('При создании пользователя произошла ошибка');
         }
 
         header('Location: /login.php');
         exit;
     }
-    $errors = $result;
 }
 
 $page_content = include_template(
