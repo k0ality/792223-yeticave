@@ -24,15 +24,12 @@ if (!$user) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $new_lot = $_POST;
-    $errors = errors_validate_lot_form($new_lot, $_FILES);
+    $errors = errors_validate_lot_form($new_lot, $_FILES, $connection);
 
     if ($errors === null) {
-        $new_lot['image'] = 'img/' . upload_image($_FILES);
-<<<<<<< HEAD
-        $result = db_add_lot($connection, $new_lot, $user['id']);
-=======
-        db_add_lot($connection, $new_lot);
->>>>>>> module7-task2
+        $new_lot['image'] = 'uploads/' . upload_image($_FILES);
+
+    $result = db_add_lot($connection, $new_lot, $user['id']);
 
         $new_lot = mysqli_insert_id($connection);
         if (!$new_lot) {
