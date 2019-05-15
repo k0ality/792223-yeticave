@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Format number with space as a thousands separator,
+ * no decimals and RUB sign at the end.
+ *
+ * @param $price
+ * @return string
+ */
 function format_price($price)
 {
     $styled_price = ceil($price);
@@ -10,7 +17,13 @@ function format_price($price)
     return $styled_price . ' ₽';
 }
 
-function user_input_filter($string)
+/**
+ * Simple xss-filter.
+ *
+ * @param string $input
+ * @return string
+ */
+function user_input_filter($input)
 {
-    return htmlspecialchars(strip_tags($string));
+    return htmlspecialchars(strip_tags($input));
 }

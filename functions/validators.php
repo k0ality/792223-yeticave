@@ -1,19 +1,29 @@
 <?php
 
 define("INVALID_HINT", "Пожалуйста, исправьте ошибки в форме");
+define("INVALID_REQUIRED", "Это поле надо заполнить");
 define("INVALID_NO_FILE", "Вы не добавили изображение");
 define("INVALID_FILE_TYPE", "Добавьте файл в формате JPG/JPEG, PNG или GIF");
 define("INVALID_NOT_A_POSITIVE_INT", "Введите целое положительное число");
 define("INVALID_DATE", "Введите дату (не ранее завтрашнего дня)");
 define("INVALID_EMAIL", "Недействительный email");
 define("INVALID_PASSWORD", "Мин 4 символа. Разрешена латиница, цифры, символы");
+define("INVALID_CATEGORY", "Несуществующая категория");
 define("EXISTING_EMAIL", "Пользователь с таким email уже зарегистрирован");
 define("EXISTING_USERNAME", "Пользователь с таким именем уже зарегистрирован");
 define("NONEXISTENT_EMAIL", "Пользователь с таким email ещё не зарегистрирован");
 define("WRONG_PASSWORD", "Вы ввели неверный пароль");
 define("INVALID_LOW_BID", "Ставка не может быть меньше текущей минимальной ставки");
 
-function errors_validate_lot_form($post, $files)
+/**
+ * Business logic for validation of add lot form
+ *
+ * @param $post
+ * @param $files
+ * @param $connection
+ * @return array|null
+ */
+function errors_validate_lot_form($post, $files, $connection)
 {
     $required = ['product', 'category', 'description', 'opening_price', 'price_increment', 'closing_time'];
     $errors = notify_required_fields($post, $required);
@@ -24,6 +34,10 @@ function errors_validate_lot_form($post, $files)
 
     if (!isset($errors['image']) && !validate_image($files)) {
         $errors['image'] = INVALID_FILE_TYPE;
+    }
+
+    if (!isset($errors['category']) && (check_category_id_exist_in_db($connection, $post['category']))) {
+        $errors['category'] = INVALID_CATEGORY;
     }
 
     if (!isset($errors['opening_price']) && !validate_input_number($post['opening_price'])) {
@@ -48,6 +62,14 @@ function errors_validate_lot_form($post, $files)
     return null;
 }
 
+/**
+ * Business logic for validation of signup form
+ *
+ * @param $post
+ * @param $files
+ * @param $connection
+ * @return array|null
+ */
 function errors_validate_sign_up_form($post, $files, $connection)
 {
     $required = ['email', 'password', 'username', 'contact'];
@@ -81,6 +103,13 @@ function errors_validate_sign_up_form($post, $files, $connection)
     return null;
 }
 
+/**
+ * Business logic for validation of login form
+ *
+ * @param $post
+ * @param $connection
+ * @return array|null
+ */
 function errors_validate_login_form($post, $connection)
 {
     $required = ['email', 'password'];
@@ -101,6 +130,13 @@ function errors_validate_login_form($post, $connection)
     return null;
 }
 
+/**
+ * Business logic for validation of new bid form
+ *
+ * @param $post
+ * @param $min_bid
+ * @return array|null
+ */
 function validate_lot_bid_form($post, $min_bid)
 {
     $required = ['new_bid'];
@@ -121,21 +157,34 @@ function validate_lot_bid_form($post, $min_bid)
     return null;
 }
 
+/**
+ * Return new array filled with data for each key of $required that is empty in $input
+ *
+ * @param array $input
+ * @param array $required
+ * @return array
+ */
 function notify_required_fields($input, $required)
 {
     $errors = [];
     foreach ($required as $key) {
         if (empty($input[$key])) {
-            $errors[$key] = 'Это поле надо заполнить';
+            $errors[$key] = INVALID_REQUIRED;
         }
     };
 
     return $errors;
 }
 
+/**
+ * Check if param is a number and integer.
+ *
+ * @param string $input
+ * @return bool
+ */
 function validate_input_number($input)
 {
-    $valid = null;
+    $valid = false;
     if (ctype_digit($input) && $input > 0) {
         $pattern = '/^[1-9][0-9]{0,9}$/';
         $valid = preg_match($pattern, $input) && filter_var($input, FILTER_VALIDATE_INT);
@@ -144,6 +193,13 @@ function validate_input_number($input)
     return $valid;
 }
 
+/**
+ * Check if param is a valid date in range.
+ * Range from tomorrow to next year from current date.
+ *
+ * @param string $input
+ * @return bool
+ */
 function validate_input_date($input)
 {
     $user_date = date("Y-m-d", strtotime($input));
@@ -154,11 +210,23 @@ function validate_input_date($input)
     return $valid;
 }
 
+/**
+ * Check if item was uploaded to param array.
+ *
+ * @param array $files
+ * @return bool
+ */
 function check_isset_file($files)
 {
     return isset($files['jpg_img']['name']) && !empty($files['jpg_img']['name']);
 }
 
+/**
+ * Check if file is present in param array and is an image MIME-type.
+ *
+ * @param array $files
+ * @return bool
+ */
 function validate_image($files)
 {
     if (!isset($files['jpg_img']['tmp_name'])) {
@@ -172,11 +240,18 @@ function validate_image($files)
     return $valid;
 }
 
-/* Allowed characters:
-* a to z, A to Z
-* 0 to 9
-* - -  ~ ! @ # $% ^ & * ()
-*/
+/**
+ * Check if param matches the pattern.
+ * Returns 1 if the pattern matches, 0 if it does not, or FALSE if an error occurred.
+ *
+ * Regular expression pattern:
+ * a to z, A to Z,
+ * 0 to 9, - -  ~ ! @ # $% ^ & * ()
+ * From 4 to 30 symbols total
+ *
+ * @param $input
+ * @return false|int
+ */
 function validate_password($input)
 {
     $pattern = '/^[A-Za-z0-9_~\-!@#$%^&*()]{4,30}$/';

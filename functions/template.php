@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Render $name template and include $data.
+ *
+ * @param $name
+ * @param $data
+ * @return false|string
+ */
 function include_template($name, $data)
 {
     $name = 'templates/' . $name;
@@ -18,6 +25,13 @@ function include_template($name, $data)
     return $result;
 }
 
+/**
+ * Render error page & die.
+ *
+ * @param $error
+ * @param $user
+ * @param $categories
+ */
 function error_template($error, $user, $categories)
 {
     $error_content = include_template('error.php', [

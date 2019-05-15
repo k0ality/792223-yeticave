@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Upload image to folder in work directory.
+ *
+ * From global array take uploaded item,
+ * check if image and rename, move file,
+ * return name of new file.
+ *
+ * @param array $files
+ * @return string
+ */
 function upload_image($files)
 {
     $files['jpg_img']['name'];
@@ -15,7 +25,7 @@ function upload_image($files)
         $file_name = uniqid() . '.jpeg';
     }
 
-    $file_path = __DIR__ . '/../img/';
+    $file_path = __DIR__ . '/../uploads/';
     move_uploaded_file($_FILES['jpg_img']['tmp_name'], $file_path . $file_name);
 
     return $file_name;
